@@ -145,7 +145,7 @@ public class ChannelLibrary extends Library {
     }
 
     public void deletePlaylist(String username, PlaylistNode playlist) {
-        QueryChannel.getChannelLibrary(username).getPlaylistsParentNode(username).children.remove(playlist);
+            QueryChannel.getChannelLibrary(username).getPlaylistsParentNode(username).children.remove(playlist);
     }
 
     public List<Video> getAllChannelVideos() {

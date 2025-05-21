@@ -24,11 +24,12 @@ public class userMenu {
             FormattedPrint.center("3. Check Watch Later", "||", outerPad);
             FormattedPrint.center("4. Playlist Collection", "||", outerPad);
             if (CurrentChannel.getChannel() != null) {
-                FormattedPrint.center("5. Switch to Channel Mode ", "||", outerPad);
+                FormattedPrint.center("5. Watch History", "||", outerPad);
+                FormattedPrint.center("6. Switch to Channel Mode ", "||", outerPad);
             } else {
-                FormattedPrint.center("5. Create Channel ", "||", outerPad);
+                FormattedPrint.center("6. Create Channel ", "||", outerPad);
             }
-            FormattedPrint.center("6. Accout Setting", "||", outerPad);
+            FormattedPrint.center("7. Accout Setting", "||", outerPad);
             FormattedPrint.center("0. Exit ", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
@@ -61,6 +62,11 @@ public class userMenu {
                     System.out.print("\033[H\033[2J");
                     break;
                 case 5:
+                    System.out.print("\033[H\033[2J");
+                    history();
+                    System.out.print("\033[H\033[2J");
+                    break;
+                case 6:
                     System.out.print("\033[H\033[2J");
                     if (CurrentChannel.getChannel() != null) {
                         System.out.print("\033[H\033[2J");
@@ -146,6 +152,64 @@ public class userMenu {
                 case 4:
                     while (!CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
                         CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
+                    }
+                    FormattedPrint.center("All video watched.", "", 0);
+                    break;
+                default:
+                    System.out.print("\033[H\033[2J");
+                    break;
+            }
+        }
+    }
+
+    private static void history() {
+        int choice;
+        int outerPad = 10;
+
+        while (true) {
+            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+
+            if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("Your history is empty.", "||", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("====================================", "###", outerPad);
+            } else {
+                int i = 1;
+                FormattedPrint.center("", "||", outerPad);
+                for (Video video : CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername())) {
+                    FormattedPrint.center(i + ". " + video.title, "||", outerPad);
+                }
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("====================================", "###", outerPad);
+            }
+
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("1. Remove One", "##", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("2. Remove All", "##", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+
+            choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Your queue is empty.", "", 0);
+                System.out.println("");
+                break;
+            }
+
+            switch (choice) {
+                case 0:
+                    System.out.print("\033[H\033[2J");
+                    return;
+                case 1:
+                    CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).pop();
+                    FormattedPrint.center("Video removed.", "", 0);
+                    break;
+                case 2:
+                    while (!CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
+                        CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).pop();
                     }
                     FormattedPrint.center("All video watched.", "", 0);
                     break;
@@ -509,27 +573,12 @@ public class userMenu {
                         if (choiceUPlaylists == 0) {
                             break;
                         } else if (choiceUPlaylists <= uplaylists.size()) {
-                            FormattedPrint.center("Playlist: " + CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choiceUPlaylists).name, "", 0);
+                            CurrentUser.getUserLibrary().addPlaylist(CurrentUser.getUsername(),uplaylists.get(choiceUPlaylists-1));
+                            FormattedPrint.center("Playlist added to your library.", "", 0);
                             System.out.println("");
                         } else {
                             FormattedPrint.center("Playlist not found.", "", 0);
                             System.out.println("");
-                        }
-                        while (true) {
-                            choicePlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add: ", "Input isn't valid", 1);
-                            if (choicePlaylist <= playlists.size()) {
-                                for (Video video : playlists.get(choicePlaylist - 1).playlist) {
-                                    CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choicePlaylist).addVideo(video);
-                                }
-                                playlists.remove(choicePlaylist - 1);
-                                FormattedPrint.center("Playlist added to playlist.", "", 0);
-                                System.out.println("");
-                            } else if (choicePlaylist == 0) {
-                                break;
-                            } else {
-                                FormattedPrint.center("Playlist not found.", "", 0);
-                                System.out.println("");
-                            }
                         }
                     }
                     System.out.print("\033[H\033[2J");

@@ -95,6 +95,10 @@ public class UserLibrary extends Library{
         return playlistsChild;
     }
 
+    public void addPlaylist(String username, PlaylistNode playlist) {
+        getAllPlaylistNode(username).add(playlist);
+    }
+
     public PlaylistNode getPlaylist(String username, int index) {
         if (!getAllPlaylistNode(username).isEmpty());
         return getAllPlaylistNode(username).get(index);
