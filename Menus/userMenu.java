@@ -172,6 +172,8 @@ public class userMenu {
             FormattedPrint.center("0. Back", "##", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("Tip: 0 to back.", "", 0);
+            System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
 
@@ -204,18 +206,17 @@ public class userMenu {
     private static void browseVideosRecomended(List<Video> videos) {
         int outerPad = 10;
 
-        FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
-            FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("Recomended Videos", "##", outerPad);
-            FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
-            videos = Picker.videoRandom(QueryChannel.getAllChannelVideos(), 10);
-            if (videos.isEmpty()) {
+            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            if (videos == null || videos.isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("There's no video available.", "||", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             } else {
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("Recomended Videos", "##", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("====================================", "###", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 for (int i = 1; i <= videos.size(); i++) {
                     FormattedPrint.center(i + ". " + videos.get(i - 1).title, "||", outerPad);
@@ -223,7 +224,6 @@ public class userMenu {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             }
-            FormattedPrint.center("Tip: 0 to back.", "", 0);
     }
 
     private static void browseVideos() {
@@ -231,6 +231,10 @@ public class userMenu {
         int outerPad = 10;
 
         List<Video> videos = Picker.videoRandom(QueryChannel.getAllChannelVideos(), 20);
+        if (videos == null) {
+            videos = new LinkedList<>();
+        }
+
         while (true) {
             browseVideosRecomended(videos);
 
@@ -243,9 +247,16 @@ public class userMenu {
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            if (videos == null || videos.isEmpty()) {
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("There's no video available.", "", 0);
+                System.out.println("");
+                break;
+            }
             switch (choice) {
                 case 0:
                     System.out.print("\033[H\033[2J");
@@ -254,6 +265,8 @@ public class userMenu {
                     while (true) {
                         System.out.print("\033[H\033[2J");
                         browseVideosRecomended(videos);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
                         choiceVideo = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
                         if (choiceVideo <= videos.size()) {
                             CurrentUser.getUserLibrary().addHistory(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
@@ -271,7 +284,9 @@ public class userMenu {
                     while (true) {
                         System.out.print("\033[H\033[2J");
                         browseVideosRecomended(videos);
-                        choiceVideo = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
+                        choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
                         if (choiceVideo <= videos.size()) {
                             CurrentUser.getUserLibrary().addQueue(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
                             videos.remove(choiceVideo - 1);
@@ -290,7 +305,9 @@ public class userMenu {
                     while (true) {
                         System.out.print("\033[H\033[2J");
                         browseVideosRecomended(videos);
-                        choiceVideo = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
+                        choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
                         if (choiceVideo <= videos.size()) {
                             CurrentUser.getUserLibrary().addWatchHashSetVideos(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
                             videos.remove(choiceVideo - 1);
@@ -312,7 +329,9 @@ public class userMenu {
                         LinkedList<PlaylistNode> playlists = CurrentUser.getUserLibrary().getAllPlaylistNode(CurrentUser.getUsername());
                         browseVideosRecomended(videos);
                         playlistUser(playlists);
-                        choicePlaylist = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
+                        choicePlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add to: ", "Input isn't valid", 1);
                         if (choicePlaylist <= playlists.size()) {
                             FormattedPrint.center("Playlist: " + CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choicePlaylist).name, "", 0);
                             System.out.println("");
@@ -323,7 +342,7 @@ public class userMenu {
                             System.out.println("");
                         }
                         while (true) {
-                            choiceVideo = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
+                            choiceVideo = GetInput.integerZeroPositiveCenter("Which playlist to add from: ", "Input isn't valid", 1);
                             if (choiceVideo <= videos.size()) {
                                 CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choicePlaylist).addVideo(videos.get(choiceVideo - 1));
                                 videos.remove(choiceVideo - 1);
@@ -353,18 +372,17 @@ public class userMenu {
     private static void browsePlaylistsRecomended(List<PlaylistNode> playlists) {
         int outerPad = 10;
 
-        FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
-            FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("Recomended Playlists", "##", outerPad);
-            FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
-            playlists = Picker.playlistNodeRandom(QueryChannel.getEveryPlaylistNode(), 10);
-            if (playlists.isEmpty()) {
+            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            if (playlists == null || playlists.isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("There's no plyalist available.", "||", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             } else {
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("Recomended Playlists", "##", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("====================================", "###", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 for (int i = 1; i <= playlists.size(); i++) {
                     FormattedPrint.center(i + ". " + playlists.get(i - 1).name, "||", outerPad);
@@ -372,7 +390,6 @@ public class userMenu {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             }
-            FormattedPrint.center("Tip: 0 to back.", "", 0);
     }
 
     private static void browsePlaylists() {
@@ -380,6 +397,9 @@ public class userMenu {
         int outerPad = 10;
 
         List<PlaylistNode> playlists = Picker.playlistNodeRandom(QueryChannel.getEveryPlaylistNode(), 20);
+        if (playlists == null) {
+            playlists = new LinkedList<>();
+        }
         while (true) {
             browsePlaylistsRecomended(playlists);
 
@@ -392,9 +412,17 @@ public class userMenu {
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            if (playlists == null || playlists.isEmpty()) {
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("There's no playlist available.", "", 0);
+                System.out.println("");
+                break;
+            }
+
             switch (choice) {
                 case 0:
                     System.out.print("\033[H\033[2J");
@@ -403,6 +431,8 @@ public class userMenu {
                     while (true) {
                         System.out.print("\033[H\033[2J");
                         browsePlaylistsRecomended(playlists);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
                         choicePlaylist = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
                         if (choicePlaylist <= playlists.size()) {
                             for (Video video : playlists.get(choicePlaylist - 1).playlist) {
@@ -422,6 +452,8 @@ public class userMenu {
                     while (true) {
                         System.out.print("\033[H\033[2J");
                         browsePlaylistsRecomended(playlists);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
                         choicePlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add to queue: ", "Input isn't valid", 1);
                         if (choicePlaylist <= playlists.size()) {
                             for (Video video : playlists.get(choicePlaylist - 1).playlist) {
@@ -443,6 +475,8 @@ public class userMenu {
                     while (true) {
                         System.out.print("\033[H\033[2J");
                         browsePlaylistsRecomended(playlists);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
                         choicePlaylist = GetInput.integerZeroPositiveCenter("Which video to watch: ", "Input isn't valid", 1);
                         if (choicePlaylist <= playlists.size()) {
                             for (Video video : playlists.get(choicePlaylist - 1).playlist) {
@@ -467,6 +501,8 @@ public class userMenu {
                         LinkedList<PlaylistNode> uplaylists = CurrentUser.getUserLibrary().getAllPlaylistNode(CurrentUser.getUsername());
                         browsePlaylistsRecomended(playlists);
                         playlistUser(uplaylists);
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
                         choiceUPlaylists = GetInput.integerZeroPositiveCenter("Which playlist to add: ", "Input isn't valid", 1);
                         if (choiceUPlaylists <= uplaylists.size()) {
                             FormattedPrint.center("Playlist: " + CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choiceUPlaylists).name, "", 0);
