@@ -89,6 +89,11 @@ public class ChannelLibrary extends Library {
         return playlistsChild;
     }
 
+    public PlaylistNode getPlaylist(String username, int index) {
+        if (!getAllPlaylistNode(username).isEmpty());
+        return getAllPlaylistNode(username).get(index);
+    }
+
     public List<PlaylistNode> getEveryPlaylistNode() {
         List<PlaylistNode> playlists = new LinkedList<>();
         for (String username : QueryUser.getAllUsername()) {

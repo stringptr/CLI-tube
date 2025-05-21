@@ -1,5 +1,6 @@
 package Menus;
 
+import java.text.Format;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -199,6 +200,14 @@ public class channelMenu {
                 FormattedPrint.center("====================================", "###", outerPad);
             }
 
+            LinkedList<Video> videos = CurrentChannel.getChannelLibrary().getChannelVideos(CurrentChannel.getUsername());
+            if (!videos.isEmpty()) {
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("This channel has no video yet.", "||", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("====================================", "###", outerPad);
+            }
+
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("1. Create a Playlist ", "||", outerPad);
             FormattedPrint.center("2. Delete a Playlist ", "||", outerPad);
@@ -210,6 +219,12 @@ public class channelMenu {
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            if (recentPlaylists == null || videos == null || recentPlaylists.isEmpty() || videos.isEmpty()) {
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("This channel has no playlists yet.", "", 0);
+                System.out.println("");
+                return;
+            }
 
             switch (choice) {
                 case 0:
@@ -282,6 +297,74 @@ public class channelMenu {
                     FormattedPrint.center("All playlist deleted succesfully.", "", 0);
                     System.out.println("");
                     break;
+                case 4:
+                    int choiceUPlaylist;
+                    int from=1, to=15;
+                    while (true) {
+                        LinkedList<PlaylistNode> uplaylists = CurrentChannel.getChannelLibrary().getAllPlaylistNode(CurrentChannel.getUsername());
+                        LinkedList<Video> recentVideos = CurrentChannel.getChannelLibrary().getChannelVideosRecentRange(CurrentChannel.currentUsername, from, to);
+                        FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("Your Playlists", "||", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("====================================", "###", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+
+                        for (int i = 1; i <= uplaylists.size(); i++) {
+                            FormattedPrint.center(i + ". " + uplaylists.get(i - 1).name, "||", outerPad);
+                        }
+
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("====================================", "###", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("Your Recent Videos", "", 0);
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("====================================", "###", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+
+                        for (Video video : recentVideos) {
+                            FormattedPrint.center(video.title, "||", outerPad);
+                        }
+
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("====================================", "###", outerPad);
+
+
+                        FormattedPrint.center("Tip: 0 to back.", "", 0);
+                        System.out.println("");
+
+                        choiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add: ", "Input isn't valid", 1);
+
+                        if (choiceUPlaylist == 0) {
+                            System.out.print("\033[H\033[2J");
+                            break;
+                        } else if (choiceUPlaylist <= uplaylists.size()) {
+                            FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist).name, "", 0);
+                            System.out.println("");
+                            while (true) {
+                                int choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
+                                if (choiceVideo == 0) {
+                                    break;
+                                } else if (choiceVideo <= recentVideos.size()) {
+                                    if (CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist).playlist.contains(recentVideos.get(choiceVideo - 1))) {
+                                        FormattedPrint.center("Video already in playlist.", "", 0);
+                                        System.out.println("");
+                                    } else {
+                                        CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist).addVideo(recentVideos.get(choiceVideo - 1));
+                                        recentVideos.remove(choiceVideo - 1);
+                                        FormattedPrint.center("Video added to playlist.", "", 0);
+                                        System.out.println("");
+                                    }
+                                } else {
+                                    FormattedPrint.center("Video not found.", "", 0);
+                                    System.out.println("");
+                                }
+                            }
+                        } else {
+                            FormattedPrint.center("Playlist not found.", "", 0);
+                            System.out.println("");
+                        }
+                    }
                 default:
                     System.out.print("\033[H\033[2J");
                     break;
