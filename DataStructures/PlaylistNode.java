@@ -16,6 +16,10 @@ public class PlaylistNode extends TreeNode {
         playlist.add(video);
     }
 
+    public void removeVideo(Video video) {
+        playlist.remove(video);
+    }
+
     @Override
     public String toString() {
         return name + " ? " + playlist;

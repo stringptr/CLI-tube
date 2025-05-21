@@ -11,7 +11,7 @@ public class VideoNode extends TreeNode {
     }
 
     public void upload(Video video) {
-        videos.push(video);
+        videos.add(video);
     }
 
     public void delete(Video video) {

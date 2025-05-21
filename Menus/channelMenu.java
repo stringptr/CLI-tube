@@ -1,6 +1,7 @@
 package Menus;
 
 import java.text.Format;
+import java.text.Normalizer.Form;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -102,9 +103,16 @@ public class channelMenu {
         System.out.println("");
 
         choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+        if (recentVideos == null || recentVideos.isEmpty() && choice > 1) {
+            System.out.print("\033[H\033[2J");
+            FormattedPrint.center("This channel has no video yet.","",0);
+            System.out.println("");
+            continue;
+        }
 
         switch (choice) {
             case 0:
+                System.out.print("\033[H\033[2J");
                 return;
             case 1:
                 int outerPad1 = 15;
@@ -193,6 +201,8 @@ public class channelMenu {
                 FormattedPrint.center("====================================", "###", outerPad);
             } else {
                 FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("Your recent playlists: ", "||", outerPad);
+                FormattedPrint.center("", "||", outerPad);
                 for (int i = 1; i <= recentPlaylists.size(); i++) {
                     FormattedPrint.center(i + ". " + recentPlaylists.get(i - 1).name, "||", outerPad);
                 }
@@ -200,8 +210,19 @@ public class channelMenu {
                 FormattedPrint.center("====================================", "###", outerPad);
             }
 
-            LinkedList<Video> videos = CurrentChannel.getChannelLibrary().getChannelVideos(CurrentChannel.getUsername());
+            LinkedList<Video> videos = CurrentChannel.getChannelLibrary().getChannelVideosRecent(CurrentChannel.getUsername(),10);
             if (!videos.isEmpty()) {
+                int i=1;
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("Your recent videos: ", "||", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                for (Video video : videos) {
+                    FormattedPrint.center(i + ". " + video.title, "||", outerPad);
+                    i++;
+                }
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("====================================", "###", outerPad);
+            } else {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("This channel has no video yet.", "||", outerPad);
                 FormattedPrint.center("", "||", outerPad);
@@ -219,11 +240,11 @@ public class channelMenu {
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-            if (recentPlaylists == null || videos == null || recentPlaylists.isEmpty() || videos.isEmpty()) {
+            if ( ( recentPlaylists == null || videos == null || recentPlaylists.isEmpty() || videos.isEmpty() ) && (choice) > 1) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("This channel has no playlists yet.", "", 0);
                 System.out.println("");
-                return;
+                continue;
             }
 
             switch (choice) {
@@ -250,9 +271,6 @@ public class channelMenu {
                     FormattedPrint.center("Video uploaded successfully.", "", 0);
                     break;
                 case 2:
-                    if (recentPlaylists.isEmpty()) {
-                        break;
-                    }
                     int outerPad2 = 10;
                     while (true) {
                         System.out.print("\033[H\033[2J");
@@ -275,14 +293,17 @@ public class channelMenu {
                         int toDelete = GetInput.integerZeroPositiveCenter("Which to delete: ", "Input isn't valid", 2);
                         if (toDelete == 0) {
                             break;
-                        } else {
+                        } else if (toDelete <= allChannelPlaList.size()) {
                             CurrentChannel.getChannelLibrary().deletePlaylist(CurrentChannel.getUsername(),allChannelPlaList.get(toDelete - 1));
+                            System.out.print("\033[H\033[2J");
+                            FormattedPrint.center("Playlist deleted succesfully.", "", 0);
+                            System.out.println("");
+                            break;
+                        } else {
+                            FormattedPrint.center("Playlist not found.", "", 0);
+                            System.out.println();
+                            break;
                         }
-
-                        System.out.print("\033[H\033[2J");
-                        FormattedPrint.center("Playlist deleted succesfully.", "", 0);
-                        System.out.println("");
-                        break;
                     }
                 case 3:
                     if (recentPlaylists.isEmpty()) {
@@ -298,76 +319,228 @@ public class channelMenu {
                     System.out.println("");
                     break;
                 case 4:
-                    int choiceUPlaylist;
-                    int from=1, to=15;
-                    while (true) {
-                        LinkedList<PlaylistNode> uplaylists = CurrentChannel.getChannelLibrary().getAllPlaylistNode(CurrentChannel.getUsername());
-                        LinkedList<Video> recentVideos = CurrentChannel.getChannelLibrary().getChannelVideosRecentRange(CurrentChannel.currentUsername, from, to);
-                        FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
-                        FormattedPrint.center("", "||", outerPad);
-                        FormattedPrint.center("Your Playlists", "||", outerPad);
-                        FormattedPrint.center("", "||", outerPad);
-                        FormattedPrint.center("====================================", "###", outerPad);
-                        FormattedPrint.center("", "||", outerPad);
+                    int choiceEdit;
 
-                        for (int i = 1; i <= uplaylists.size(); i++) {
-                            FormattedPrint.center(i + ". " + uplaylists.get(i - 1).name, "||", outerPad);
-                        }
-
-                        FormattedPrint.center("", "||", outerPad);
-                        FormattedPrint.center("====================================", "###", outerPad);
-                        FormattedPrint.center("", "||", outerPad);
-                        FormattedPrint.center("Your Recent Videos", "", 0);
-                        FormattedPrint.center("", "||", outerPad);
-                        FormattedPrint.center("====================================", "###", outerPad);
-                        FormattedPrint.center("", "||", outerPad);
-
-                        for (Video video : recentVideos) {
-                            FormattedPrint.center(video.title, "||", outerPad);
-                        }
-
-                        FormattedPrint.center("", "||", outerPad);
-                        FormattedPrint.center("====================================", "###", outerPad);
-
-
-                        FormattedPrint.center("Tip: 0 to back.", "", 0);
-                        System.out.println("");
-
-                        choiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add: ", "Input isn't valid", 1);
-
-                        if (choiceUPlaylist == 0) {
-                            System.out.print("\033[H\033[2J");
+                    FormattedPrint.center("====================================", "###", outerPad);
+                    FormattedPrint.center("", "||", outerPad);
+                    FormattedPrint.center("1. Add video to playlist", "||", outerPad);
+                    FormattedPrint.center("2. Remove video form playlist", "||", outerPad);
+                    FormattedPrint.center("3. Change playlist name", "||", outerPad);
+                    FormattedPrint.center("", "||", outerPad);
+                    FormattedPrint.center("====================================", "###", outerPad);
+                    FormattedPrint.center("Tip: 0 to back.", "", 0);
+                    System.out.println("");
+                    choiceEdit =  GetInput.integerZeroPositiveCenter("Choice : ", "Input isn't valid", 1);
+                    switch (choiceEdit) {
+                        case 0:
                             break;
-                        } else if (choiceUPlaylist <= uplaylists.size()) {
-                            FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist).name, "", 0);
-                            System.out.println("");
-                            while (true) {
-                                int choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
-                                if (choiceVideo == 0) {
-                                    break;
-                                } else if (choiceVideo <= recentVideos.size()) {
-                                    if (CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist).playlist.contains(recentVideos.get(choiceVideo - 1))) {
-                                        FormattedPrint.center("Video already in playlist.", "", 0);
-                                        System.out.println("");
-                                    } else {
-                                        CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist).addVideo(recentVideos.get(choiceVideo - 1));
-                                        recentVideos.remove(choiceVideo - 1);
-                                        FormattedPrint.center("Video added to playlist.", "", 0);
-                                        System.out.println("");
-                                    }
-                                } else {
-                                    FormattedPrint.center("Video not found.", "", 0);
-                                    System.out.println("");
-                                }
-                            }
-                        } else {
-                            FormattedPrint.center("Playlist not found.", "", 0);
-                            System.out.println("");
-                        }
+                        case 1:
+                            playlistAddVideo();
+                            break;
+                        case 2:
+                            playlistRemoveVideo();
+                            break;
+                        case 3:
+                            playlistChangeName();
+                            break;
+                        default:
                     }
                 default:
                     System.out.print("\033[H\033[2J");
                     break;
+            }
+        }
+    }
+
+    public static void playlistChangeName() {
+        int outerPad = 10;
+        int choice;
+
+        while (true) {
+            LinkedList<PlaylistNode> playlists = CurrentChannel.getChannelLibrary().getAllPlaylistNode(CurrentChannel.getUsername());
+            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("Your Playlists", "||", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+
+            for (int i = 1; i <= playlists.size(); i++) {
+                FormattedPrint.center(i + ". " + playlists.get(i - 1).name, "||", outerPad);
+            }
+
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+
+
+            FormattedPrint.center("Tip: 0 to back.", "", 0);
+            System.out.println("");
+
+            choice = GetInput.integerZeroPositiveCenter("Which playlist: ", "Input isn't valid", 1);
+
+            if (choice == 0) {
+                System.out.print("\033[H\033[2J");
+                return;
+            } else if (choice <= playlists.size()) {
+                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choice-1).name, "", 0);
+                String newName = GetInput.stringLimitedCenter("New playlist name: ", "The name is too long.", 36, 12);
+                playlists.get(choice-1).name = newName;
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Playlist name changed successfully.","",0);
+                System.out.println("");
+            } else {
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Playlist not found.","",0);
+                System.out.println("");
+                continue;
+            }
+        }
+    }
+
+    public static void playlistAddVideo() {
+        int outerPad = 10;
+        int choiceUPlaylist;
+        int from=1, to=15;
+
+        while (true) {
+            LinkedList<PlaylistNode> uplaylists = CurrentChannel.getChannelLibrary().getAllPlaylistNode(CurrentChannel.getUsername());
+            LinkedList<Video> recentVideos = CurrentChannel.getChannelLibrary().getChannelVideosRecentRange(CurrentChannel.currentUsername, from, to);
+            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("Your Playlists", "||", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+
+            for (int i = 1; i <= uplaylists.size(); i++) {
+                FormattedPrint.center(i + ". " + uplaylists.get(i - 1).name, "||", outerPad);
+            }
+
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("Your Recent Videos", "||", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+
+            int j =1 ;
+            for (Video video : recentVideos) {
+                FormattedPrint.center(j + ". " + video.title, "||", outerPad);
+                j++;
+            }
+
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+
+
+            FormattedPrint.center("Tip: 0 to back.", "", 0);
+            System.out.println("");
+
+            choiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add: ", "Input isn't valid", 1);
+
+            if (choiceUPlaylist == 0) {
+                System.out.print("\033[H\033[2J");
+                break;
+            } else if (choiceUPlaylist <= uplaylists.size()) {
+                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).name, "", 0);
+                System.out.println("");
+                while (true) {
+                    int choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
+                    if (choiceVideo == 0) {
+                        break;
+                    } else if (choiceVideo <= recentVideos.size()) {
+                        if (CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).playlist.contains(recentVideos.get(choiceVideo - 1))) {
+                            FormattedPrint.center("Video already in playlist.", "", 0);
+                            System.out.println("");
+                        } else {
+                            CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).addVideo(recentVideos.get(choiceVideo - 1));
+                            FormattedPrint.center("Video added to playlist.", "", 0);
+                            System.out.println("");
+                        }
+                    } else {
+                        FormattedPrint.center("Video not found.", "", 0);
+                        System.out.println("");
+                    }
+                }
+            } else {
+                FormattedPrint.center("Playlist not found.", "", 0);
+                System.out.println("");
+            }
+        }
+    }
+
+    public static void playlistRemoveVideo() {
+        int outerPad = 10;
+        int choiceUPlaylist;
+
+        while (true) {
+            LinkedList<PlaylistNode> uplaylists = CurrentChannel.getChannelLibrary().getAllPlaylistNode(CurrentChannel.getUsername());
+            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("Your Playlists", "||", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("", "||", outerPad);
+
+            for (int i = 1; i <= uplaylists.size(); i++) {
+                FormattedPrint.center(i + ". " + uplaylists.get(i - 1).name, "||", outerPad);
+            }
+
+            FormattedPrint.center("", "||", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
+
+
+            FormattedPrint.center("Tip: 0 to back.", "", 0);
+            System.out.println("");
+
+            choiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to remove from: ", "Input isn't valid", 1);
+
+            if (choiceUPlaylist == 0) {
+                System.out.print("\033[H\033[2J");
+                break;
+            } else if (choiceUPlaylist <= uplaylists.size()) {
+                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).name, "", 0);
+                System.out.println("");
+                while (true) {
+
+                    LinkedList<Video> playlistVideos = CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).playlist;
+                    FormattedPrint.center("====================================", "###", outerPad);
+                    FormattedPrint.center("", "||", outerPad);
+                    FormattedPrint.center("Playlist videos: ", "||", outerPad);
+                    FormattedPrint.center("", "||", outerPad);
+                    FormattedPrint.center("====================================", "###", outerPad);
+                    FormattedPrint.center("", "||", outerPad);
+
+                    if (playlistVideos == null || playlistVideos.isEmpty()) {
+                        FormattedPrint.center("This playlist has no video yet.", "||", outerPad);
+                    } else {
+                        int i = 1;
+                        for (Video video : playlistVideos) {
+                            FormattedPrint.center(i + ". " + video.title, "||", outerPad);
+                        }
+                    }
+
+                    FormattedPrint.center("", "||", outerPad);
+                    FormattedPrint.center("====================================", "###", outerPad);
+
+                    int choiceVideo = GetInput.integerZeroPositiveCenter("Which video to remove: ", "Input isn't valid", 1);
+                    if (choiceVideo == 0) {
+                        break;
+                    } else if (choiceVideo <= playlistVideos.size()) {
+                        CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).removeVideo(playlistVideos.get(choiceVideo - 1));
+                        playlistVideos.remove(choiceVideo - 1);
+                        FormattedPrint.center("Video removed from playlist.", "", 0);
+                        System.out.println("");
+                        continue;
+                    } else {
+                        FormattedPrint.center("Video not found.", "", 0);
+                        System.out.println("");
+                    }
+                }
+            } else {
+                FormattedPrint.center("Playlist not found.", "", 0);
+                System.out.println("");
             }
         }
     }
