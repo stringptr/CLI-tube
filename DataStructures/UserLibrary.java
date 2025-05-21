@@ -3,6 +3,7 @@ package DataStructures;
 import java.util.*;
 
 import Database.*;
+import Utils.FormattedPrint;
 
 public class UserLibrary extends Library{
     public UserLibrary() {
@@ -20,6 +21,24 @@ public class UserLibrary extends Library{
             if (child.name.equals("Queue")) return (QueueNode) child;
         }
         return null;
+    }
+
+    public Queue<Video> getQueue(String username) {
+        return getQueueNode(username).queue;
+    }
+
+    public void addQueue(String username, Video video) {
+        QueueNode queueNode = getQueueNode(username);
+        if (queueNode != null) {
+            getQueue(username).add(video);
+        }
+    }
+
+    public void removeQueue(String username, Video video) {
+        QueueNode queueNode = getQueueNode(username);
+        if (queueNode != null) {
+            getQueue(username).remove(video);
+        }
     }
 
     public HistoryNode getHistoryNode(String username) {
@@ -41,11 +60,15 @@ public class UserLibrary extends Library{
         return getWatchHashSetNode(username).watchashset;
     }
 
+    public void addWatchHashSetVideos(String username, Video video) {
+        getWatchHashSetNode(username).watchashset.add(video);
+    }
+
     public void removeWatchHashSetVideos(String username, Video video) {
         getWatchHashSetNode(username).watchashset.remove(video);
     }
 
-    public void watchVideo(String username, Video video) {
+    public void addHistory(String username, Video video) {
         getHistoryNode(username).watchVideo(video);
     }
 
@@ -70,6 +93,15 @@ public class UserLibrary extends Library{
         }
 
         return playlistsChild;
+    }
+
+    public PlaylistNode getPlaylist(String username, int index) {
+        if (!getAllPlaylistNode(username).isEmpty());
+        return getAllPlaylistNode(username).get(index);
+    }
+
+    public void addPlaylistVideo(PlaylistNode playlist, Video video) {
+        playlist.addVideo(video);
     }
 
     public LinkedList<PlaylistNode> getPlaylistNodeRecent(String username, int count) {

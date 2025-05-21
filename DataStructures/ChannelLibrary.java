@@ -89,6 +89,14 @@ public class ChannelLibrary extends Library {
         return playlistsChild;
     }
 
+    public List<PlaylistNode> getEveryPlaylistNode() {
+        List<PlaylistNode> playlists = new LinkedList<>();
+        for (String username : QueryUser.getAllUsername()) {
+            playlists.addAll(getAllPlaylistNode(username));
+        }
+        return playlists;
+    }
+
     public LinkedList<PlaylistNode> getPlaylistNodeRecent(String username, int count) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
         LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
@@ -133,5 +141,13 @@ public class ChannelLibrary extends Library {
 
     public void deletePlaylist(String username, PlaylistNode playlist) {
         QueryChannel.getChannelLibrary(username).getPlaylistsParentNode(username).children.remove(playlist);
+    }
+
+    public List<Video> getAllChannelVideos() {
+        List<Video> videos = new LinkedList<>();
+        for (String username : QueryUser.getAllUsername()) {
+            videos.addAll(getChannelVideos(username));
+        }
+        return videos;
     }
 }

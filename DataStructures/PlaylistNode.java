@@ -3,7 +3,7 @@ package DataStructures;
 import java.util.*;
 
 public class PlaylistNode extends TreeNode {
-    LinkedList<Video> playlist;
+    public LinkedList<Video> playlist;
     String description;
 
     public PlaylistNode(String name, String description) {
