@@ -63,15 +63,16 @@ public class channelMenu {
 
     private static void video() {
         int choice;
-        int outerPad = 11;
+        int outerPad = 10;
+        int outerPad2 = 10;
 
         while (true) {
-        FormattedPrint.center("============ CLI-tube ============", "###", outerPad);
+        FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
         FormattedPrint.center("", "||", outerPad);
         FormattedPrint.center(" Now is your time to shine !! ", "##", outerPad);
         FormattedPrint.center(CurrentChannel.getName() + " ", "##", outerPad);
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center("==================================", "###", outerPad);
+        FormattedPrint.center("======================================", "###", outerPad);
 
         LinkedList<Video> recentVideos = CurrentChannel.getChannelLibrary().getChannelVideosRecent(CurrentChannel.getUsername(),10);
         if (!recentVideos.isEmpty()) {
@@ -81,21 +82,21 @@ public class channelMenu {
                 FormattedPrint.center(i + ". " + recentVideos.get(i - 1).title, "||", outerPad);
            }
            FormattedPrint.center("", "||", outerPad);
-           FormattedPrint.center("==================================", "###", outerPad);
+           FormattedPrint.center("======================================", "###", outerPad);
         } else {
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("You don't have any video.", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("==================================", "###", outerPad);
+            FormattedPrint.center("=====================================", "###", outerPad);
         }
 
         FormattedPrint.center("", "||", outerPad);
         FormattedPrint.center("1. Upload Video ", "||", outerPad);
         FormattedPrint.center("2. Delete Video ", "||", outerPad);
-        FormattedPrint.center("3. Edit Video ", "||", outerPad);
+        FormattedPrint.center("3. See All Video ", "||", outerPad);
         FormattedPrint.center("0. Back ", "||", outerPad);
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center("==================================", "###", outerPad);
+        FormattedPrint.center("======================================", "###", outerPad);
         System.out.println("");
 
         choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -115,14 +116,14 @@ public class channelMenu {
 
                 System.out.print("\033[H\033[2J");
 
-                FormattedPrint.center("=== CLI-tube ===", "###", outerPad1);
+                FormattedPrint.center("========= CLI-tube =========", "###", outerPad1);
                 FormattedPrint.center("", "||", outerPad1);
                 FormattedPrint.center("Upload Video", "||", outerPad1);
                 FormattedPrint.center("", "||", outerPad1);
-                FormattedPrint.center("==========================", "###", outerPad1);
+                FormattedPrint.center("============================", "###", outerPad1);
                 System.out.println("");
 
-                String title = GetInput.stringLimitedCenter("Title:", "Input isn't valid.", 36, 8);
+                String title = GetInput.stringLimitedCenter("Title:", "Input isn't valid.", 36, 24);
                 System.out.println("");
                 String description = GetInput.stringLimitedCenter("Description:", "Input isn't valid.", 36, 8);
 
@@ -132,23 +133,22 @@ public class channelMenu {
                 System.out.println("");
                 break;
             case 2:
-                int outerPad2 = 11;
                 while (!recentVideos.isEmpty()) {
                     System.out.print("\033[H\033[2J");
-                    FormattedPrint.center("============ CLI-tube ============", "###", outerPad2);
+                    FormattedPrint.center("============== CLI-tube ==============", "###", outerPad2);
                     FormattedPrint.center("", "||", outerPad2);
                     FormattedPrint.center("Delete Video", "||", outerPad2);
                     FormattedPrint.center("", "||", outerPad2);
-                    FormattedPrint.center("==================================", "###", outerPad2);
+                    FormattedPrint.center("======================================", "###", outerPad2);
                     FormattedPrint.center("", "||", outerPad2);
 
-                    LinkedList<Video> allChannelVideos = CurrentChannel.getChannelLibrary().getChannelVideos(CurrentChannel.getUsername());
+                    LinkedList<Video> allChannelVideos = CurrentChannel.getChannelLibrary().getChannelVideos(CurrentChannel.getUsername()).reversed();
                     for (int i = 1; i <= allChannelVideos.size(); i++) {
                         FormattedPrint.center(i + ". " + allChannelVideos.get(i - 1).title, "||", outerPad2);
                     }
 
                     FormattedPrint.center("", "||", outerPad2);
-                    FormattedPrint.center("==================================", "###", outerPad2);
+                    FormattedPrint.center("======================================", "###", outerPad2);
                     FormattedPrint.center("Tip: 0 to back.", "", 0);
                     System.out.println("");
 
@@ -167,8 +167,29 @@ public class channelMenu {
                     System.out.print("\033[H\033[2J");
                 }
             case 3:
-                System.out.print("\033[H\033[2J");
-                //channelVideoEdit();
+                FormattedPrint.center("============== CLI-tube ==============", "###", outerPad2);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("All Your Videos", "##", outerPad);
+                FormattedPrint.center(CurrentChannel.getName() + " ", "##", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad2);
+
+                LinkedList<Video> Videos = CurrentChannel.getChannelLibrary().getChannelVideosRecent(CurrentChannel.getUsername(),10);
+                if (!recentVideos.isEmpty()) {
+                    FormattedPrint.center("", "||", outerPad);
+                    for (int i = 1; i <= Videos.size(); i++) {
+                        FormattedPrint.center(i + ". " + Videos.get(i - 1).title, "||", outerPad2);
+                    }
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad2);
+                }
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("~. Back ", "||", outerPad);
+                FormattedPrint.center("", "||", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad2);
+                System.out.println("");
+
+                int choiceAll = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
                 break;
             default:
                 System.out.print("\033[H\033[2J");
@@ -182,19 +203,19 @@ public class channelMenu {
         int outerPad = 10;
 
         while (true) {
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center(" Let's create a fun list !! ", "##", outerPad);
             FormattedPrint.center(CurrentChannel.getName() + " ", "##", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
 
             LinkedList<PlaylistNode> recentPlaylists = CurrentChannel.getChannelLibrary().getPlaylistNodeRecent(CurrentChannel.getUsername(), 10);
             if (recentPlaylists.isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("This channel has no playlists yet.", "||", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             } else {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Your recent playlists: ", "||", outerPad);
@@ -203,7 +224,7 @@ public class channelMenu {
                     FormattedPrint.center(i + ". " + recentPlaylists.get(i - 1).name, "||", outerPad);
                 }
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             }
 
             LinkedList<Video> videos = CurrentChannel.getChannelLibrary().getChannelVideosRecent(CurrentChannel.getUsername(),10);
@@ -217,12 +238,12 @@ public class channelMenu {
                     i++;
                 }
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             } else {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("This channel has no video yet.", "||", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             }
 
             FormattedPrint.center("", "||", outerPad);
@@ -232,7 +253,7 @@ public class channelMenu {
             FormattedPrint.center("4. Edit Playlist ", "||", outerPad);
             FormattedPrint.center("0. Back ", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);

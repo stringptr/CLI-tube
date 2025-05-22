@@ -12,7 +12,7 @@ public class ChannelLibrary extends Library {
     }
 
     private VideoNode getChannelVideosNode(String username) {
-        for (TreeNode child : QueryChannel.getChannelLibrary(username).root.children) {
+        for (TreeNode child : root.children) {
             if (child.name.equals("Videos")) return (VideoNode) child;
         }
         return null;
@@ -36,10 +36,10 @@ public class ChannelLibrary extends Library {
 
     public LinkedList<Video> getChannelVideosRecent(String username, int count) {
         LinkedList<Video> recent = new LinkedList<>();
-        LinkedList<Video> videos = new LinkedList<>(getChannelVideos(username));
+        LinkedList<Video> videos = getChannelVideos(username);
 
         for (int i = 0; i <= count - 1 && i < videos.size() && !videos.isEmpty(); i++) {
-            Video video = videos.get(i);
+            Video video = videos.get(videos.size() - 1 - i);
             recent.add(video);
         }
 
@@ -48,7 +48,7 @@ public class ChannelLibrary extends Library {
 
     public LinkedList<Video> getChannelVideosRange(String username, int from, int to) {
         LinkedList<Video> recent = new LinkedList<>();
-        LinkedList<Video>  videos = new LinkedList<>(getChannelVideos(username));
+        LinkedList<Video>  videos = getChannelVideos(username);
 
         for (int i = 0;i >= from - 1 && i <= to - 1 && i < videos.size() && !videos.isEmpty(); i++) {
             Video video = videos.get(i);
@@ -109,7 +109,7 @@ public class ChannelLibrary extends Library {
 
         for (int i=0; i < count && i < playlists.size() && !playlists.isEmpty(); i++) {
             int inverseIndex = playlists.size() - 1 - i;
-            playlistsChild.add(playlists.get(inverseIndex));
+            playlistsChild.add(playlists.get(i));
         }
 
         return playlistsChild;
