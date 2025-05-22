@@ -149,7 +149,7 @@ public class userMenu {
 
             if (CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("Your queue is empty.", "||", outerPad);
+                FormattedPrint.center("Your queue is empty.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             } else {
@@ -163,13 +163,13 @@ public class userMenu {
             }
 
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("1. Watch One", "##", outerPad);
+            FormattedPrint.center("1. Watch One", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("2. Watch All", "##", outerPad);
+            FormattedPrint.center("2. Watch All", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("3. Remove One", "##", outerPad);
+            FormattedPrint.center("3. Remove One", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("4. Remove All", "##", outerPad);
+            FormattedPrint.center("4. Remove All", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
 
@@ -224,7 +224,7 @@ public class userMenu {
 
             if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("Your history is empty.", "||", outerPad);
+                FormattedPrint.center("Your history is empty.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             } else {
@@ -238,9 +238,9 @@ public class userMenu {
             }
 
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("1. Remove One", "##", outerPad);
+            FormattedPrint.center("1. Remove One", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("2. Remove All", "##", outerPad);
+            FormattedPrint.center("2. Remove All", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
 
@@ -280,12 +280,11 @@ public class userMenu {
         while (true) {
             FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("1. Browse Video", "##", outerPad);
-            FormattedPrint.center("2. Browse Playlist", "##", outerPad);
-            FormattedPrint.center("0. Back", "##", outerPad);
+            FormattedPrint.center("1. Browse Video", "||", outerPad);
+            FormattedPrint.center("2. Browse Playlist", "||", outerPad);
+            FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
-            FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -317,7 +316,7 @@ public class userMenu {
             FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
             if (videos == null || videos.isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("There's no video available.", "||", outerPad);
+                FormattedPrint.center("There's no video available.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("====================================", "###", outerPad);
             } else {
@@ -355,7 +354,6 @@ public class userMenu {
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
-            FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -522,7 +520,6 @@ public class userMenu {
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
-            FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -639,7 +636,6 @@ public class userMenu {
     }
 
     private static void playlistUser(List<PlaylistNode> playlists) {
-        int choice;
         int outerPad = 10;
 
         if (playlists.isEmpty()) {
@@ -766,12 +762,12 @@ public class userMenu {
         int outerPad = 11;
 
         while (true) {
-        FormattedPrint.center("====================================", "##", outerPad);
+        FormattedPrint.center("====================================", "###", outerPad);
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center(" Watch the Watch Later ", "##", outerPad);
-        FormattedPrint.center(CurrentUser.getName() + " ", "##", outerPad);
+        FormattedPrint.center(" Watch the Watch Later ", "||", outerPad);
+        FormattedPrint.center(CurrentUser.getName() + " ", "||", outerPad);
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center("====================================", "##", outerPad);
+        FormattedPrint.center("====================================", "###", outerPad);
 
         LinkedHashSet<Video> videos = CurrentUser.getUserLibrary().getWatchHashSetVideos(CurrentUser.getUsername());
         if (!videos.isEmpty()) {
@@ -791,12 +787,12 @@ public class userMenu {
             FormattedPrint.center("==================================", "###", outerPad);
         }
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center("1. Watch", "##", outerPad);
-        FormattedPrint.center("2. Watch all", "##", outerPad);
-        FormattedPrint.center("3. Remove", "##", outerPad);
-        FormattedPrint.center("4. Remove all", "##", outerPad);
+        FormattedPrint.center("1. Watch", "||", outerPad);
+        FormattedPrint.center("2. Watch all", "||", outerPad);
+        FormattedPrint.center("3. Remove", "||", outerPad);
+        FormattedPrint.center("4. Remove all", "||", outerPad);
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center("====================================", "##", outerPad);
+        FormattedPrint.center("====================================", "###", outerPad);
 
         System.out.println("");
 

@@ -1,17 +1,16 @@
 package Menus;
 
 import java.time.LocalDateTime;
-import java.util.*;
 
 import Utils.*;
 import Database.*;
 import DataStructures.*;
-import Menus.*;
 
 public class Menu {
     public static void login() {
         int outerPad = 21;
-        Database.Users.put("user", new User("a",LocalDateTime.now(),new Channel("channel", null, LocalDateTime.now())));
+        Database.Users.put("user", new User("a",LocalDateTime.now(),new Channel("channel", null, LocalDateTime.now()),"user"));
+        Database.Users.put("username", new User("name",LocalDateTime.now(),new Channel("channel", null, LocalDateTime.now()),"password"));
         String inputtedUsername;
 
         FormattedPrint.center("=== CLI-tube ===", "###", outerPad);
@@ -24,25 +23,39 @@ public class Menu {
         System.out.println("");
 
         while (true) {
-            inputtedUsername = GetInput.stringLimitedCenter("Login As","Input isn't valid.", 16, 16);
+            inputtedUsername = GetInput.stringLimitedCenter("Login As","Input isn't valid.", 16, 8);
             if (inputtedUsername.equals("~")) {
                 return;
             } else if (!Database.Users.containsKey(inputtedUsername)) {
                 FormattedPrint.center("Username isn't exist",   "", 0);
                 System.out.println("");
             } else {
-                System.out.print("\033[H\033[2J");
-                CurrentUser.set(inputtedUsername);
-                System.out.print("\033[H\033[2J");
-                mainMenu();
+                System.out.println("");
+                String password;
+                while(true){
+                    password = GetInput.stringLimitedCenter("Password","Input isn't valid.", 24, 8);
+                    if (password.equals("~")) {
+                        break;
+                    } else if (QueryUser.getUser(inputtedUsername).verifyPassword(password)) {
+                        System.out.print("\033[H\033[2J");
+                        CurrentUser.set(inputtedUsername);
+                        System.out.print("\033[H\033[2J");
+                        mainMenu();
+                        break;
+                    } else {
+                        FormattedPrint.center("Password incorrect.", "", 0);
+                        System.out.println("");
+                    }
+                }
                 break;
             }
         }
     }
 
     public static void register() {
-        String username;
-        String display_name;
+        String username = "";
+        String password = "";
+        String display_name = "";
 
         FormattedPrint.center("=== CLI-tube ===", "###", 21);
         FormattedPrint.center("", "||", 21);
@@ -51,21 +64,35 @@ public class Menu {
         FormattedPrint.center("================", "###", 21);
         FormattedPrint.center("Tip: fill ~ to go back", "", 21);
 
-        while (true) {
+        while (username.length() < 6) {
             System.out.println("");
-            username = GetInput.stringLimitedCenter("Username","Input isn't valid.", 16, 16);
+            username = GetInput.stringLimitedCenter("Username (min 6 characters)","Input isn't valid.", 16, 8);
             if (username.equals("~")) return;
-            if (Database.Users.containsKey(username)) System.out.println("Username already used."); else break;
+            if (Database.Users.containsKey(username)) {
+                System.out.println("Username already used.");
+                FormattedPrint.center("", "", 0);
+            };
         }
 
         System.out.println("");
-        display_name = GetInput.stringLimitedCenter("Name","Input isn't valid.", 24, 16);
+        while (password.length() < 8) {
+            password = GetInput.stringLimitedCenter("Password (min 8 characters)","Input isn't valid.", 24, 8);
+            if (password.equals("~")) return;
+            if (password.length() < 8) {
+                System.out.println("Password must be at least 8 characters.");
+                FormattedPrint.center("", "", 0);
+            }
+        }
+        System.out.println("");
+
+        display_name = GetInput.stringLimitedCenter("Name","Input isn't valid.", 24, 8);
         if (display_name.equals("~")) return;
+        System.out.println("");
         int createChannel = GetInput.integerBoolCenter("Do you want to create a channel (0/1): ", "Input isn't valid", 1);
         System.out.println("");
 
         if (createChannel == 0) {
-            User newUser = new User(display_name, LocalDateTime.now(), null);
+            User newUser = new User(display_name, LocalDateTime.now(), null, password);
             Database.Users.put(username, newUser);
             System.out.print("\033[H\033[2J");
             FormattedPrint.center("Account successfully created. Now, you can login.", "", 0);
@@ -73,8 +100,8 @@ public class Menu {
             return;
         }
 
-        String channel_name = GetInput.stringLimitedCenter("Channel Name:","Too many characters.", 16, 10);
-        User newUser = new User(display_name, LocalDateTime.now(), new Channel(channel_name, "", LocalDateTime.now()));
+        String channel_name = GetInput.stringLimitedCenter("Channel Name:","Too many characters.", 16, 8);
+        User newUser = new User(display_name, LocalDateTime.now(), new Channel(channel_name, "", LocalDateTime.now()), password);
         Database.Users.put(username, newUser);
         System.out.print("\033[H\033[2J");
         FormattedPrint.center("Account with Channel successfully created. Now, you can login.", "", 0);
@@ -91,7 +118,8 @@ public class Menu {
         while (true) {
             FormattedPrint.center("======= CLI-tube =======", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("Welcome, " + CurrentUser.getName() + " ", "||", outerPad);
+            FormattedPrint.center("Welcome,", "||", outerPad);
+            FormattedPrint.center(CurrentUser.getName(), "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("======= ChooseMenu =======", "##", outerPad);
             FormattedPrint.center("", "||", outerPad);

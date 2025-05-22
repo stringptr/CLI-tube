@@ -1,14 +1,11 @@
 package Menus;
 
-import java.text.Format;
-import java.text.Normalizer.Form;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import Utils.*;
 import Database.*;
 import DataStructures.*;
-import Menus.*;
 
 public class channelMenu {
     public static void main() {
@@ -18,17 +15,16 @@ public class channelMenu {
         while (true) {
             FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center(" Now's your time to shine !!", "||", outerPad);
-            FormattedPrint.center(CurrentUser.getUsername(), "||", outerPad);
+            FormattedPrint.center("Now's your time to shine !!", "||", outerPad);
             FormattedPrint.center(CurrentChannel.getName() + " ", "||", outerPad);;
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);;
-            FormattedPrint.center("1. Manage Video ", "||", outerPad);
+            FormattedPrint.center("1. Manage Video", "||", outerPad);
             FormattedPrint.center("2. Manage Playlist", "||", outerPad);
             FormattedPrint.center("3. Channel Setting", "||", outerPad);
             FormattedPrint.center("4. Switch to User Mode", "||", outerPad);
-            FormattedPrint.center("0. Exit ", "||", outerPad);
+            FormattedPrint.center("0. Exit", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
             System.out.println("");
@@ -326,9 +322,9 @@ public class channelMenu {
                     FormattedPrint.center("1. Add video to playlist", "||", outerPad);
                     FormattedPrint.center("2. Remove video form playlist", "||", outerPad);
                     FormattedPrint.center("3. Change playlist name", "||", outerPad);
+                    FormattedPrint.center("0. Back", "||", outerPad);
                     FormattedPrint.center("", "||", outerPad);
                     FormattedPrint.center("====================================", "###", outerPad);
-                    FormattedPrint.center("Tip: 0 to back.", "", 0);
                     System.out.println("");
                     choiceEdit =  GetInput.integerZeroPositiveCenter("Choice : ", "Input isn't valid", 1);
                     switch (choiceEdit) {
