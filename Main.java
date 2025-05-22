@@ -24,7 +24,8 @@ public class Main{
                 case 0:
                     int exit;
                     exit = GetInput.integerBoolCenter("Are you sure (1 to yes, 0 to no):",  "Input isn't valid", 1);
-                    if (exit == 0) return;
+                    if (exit == 1) return;
+                    System.out.print("\033[H\033[2J");
                     break;
                 case 1:
                     System.out.print("\033[H\033[2J");

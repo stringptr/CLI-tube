@@ -3,7 +3,6 @@ package DataStructures;
 import java.util.*;
 
 import Database.*;
-import Utils.FormattedPrint;
 
 public class UserLibrary extends Library{
     public UserLibrary() {
