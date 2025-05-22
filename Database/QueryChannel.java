@@ -21,8 +21,7 @@ public class QueryChannel extends QueryUser {
     public static Collection<ChannelLibrary> getAllChannelLibrary() {
         Collection<ChannelLibrary> libraries = new ArrayList<>();
         for (Channel channel : QueryChannel.getAllChannel()) {
-            if (channel.library != null);
-            else libraries.add(channel.library);
+            if (channel.library != null) libraries.add(channel.library);
         }
         return libraries;
     }
@@ -42,7 +41,7 @@ public class QueryChannel extends QueryUser {
     public static List<Video> getAllChannelVideos() {
         List<Video> videos = new LinkedList<>();
         for (String username : QueryUser.getAllUsername()) {
-            videos.addAll(QueryChannel.getChannelLibrary(username).getChannelVideos(username));
+            videos.addAll(QueryChannel.getChannelLibrary(username).getChannelVideos());
         }
         return videos;
     }
@@ -50,7 +49,7 @@ public class QueryChannel extends QueryUser {
     public static List<PlaylistNode> getEveryPlaylistNode() {
         List<PlaylistNode> playlists = new LinkedList<>();
         for (String username : QueryUser.getAllUsername()) {
-            playlists.addAll(QueryChannel.getChannelLibrary(username).getAllPlaylistNode(username));
+            playlists.addAll(QueryChannel.getChannelLibrary(username).getAllPlaylistNode());
         }
         return playlists;
     }

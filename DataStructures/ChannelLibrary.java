@@ -11,32 +11,31 @@ public class ChannelLibrary extends Library {
         root.addChild(videosNode);
     }
 
-    private VideoNode getChannelVideosNode(String username) {
+    private VideoNode getChannelVideosNode() {
         for (TreeNode child : root.children) {
             if (child.name.equals("Videos")) return (VideoNode) child;
         }
         return null;
     }
 
-    public LinkedList<Video> getChannelVideos(String username) {
-        Channel channel = QueryChannel.getChannel(username);
-        VideoNode node = getChannelVideosNode(username);
+    public LinkedList<Video> getChannelVideos() {
+        VideoNode node = getChannelVideosNode();
 
-        if (channel == null || node.videos == null) return new LinkedList<>();
+        if (node.videos == null || node.videos.isEmpty()) return new LinkedList<>();
         return node.videos;
     }
 
-    public void uploadChannelVideo(String username, Video video) {
-        getChannelVideosNode(username).upload(video);
+    public void uploadChannelVideo(Video video) {
+        getChannelVideosNode().upload(video);
     }
 
-    public void deleteChannelVideo(String username, Video video) {
-        getChannelVideosNode(username).delete(video);
+    public void deleteChannelVideo(Video video) {
+        getChannelVideosNode().delete(video);
     }
 
-    public LinkedList<Video> getChannelVideosRecent(String username, int count) {
+    public LinkedList<Video> getChannelVideosRecent(int count) {
         LinkedList<Video> recent = new LinkedList<>();
-        LinkedList<Video> videos = getChannelVideos(username);
+        LinkedList<Video> videos = getChannelVideos();
 
         for (int i = 0; i <= count - 1 && i < videos.size() && !videos.isEmpty(); i++) {
             Video video = videos.get(videos.size() - 1 - i);
@@ -46,9 +45,9 @@ public class ChannelLibrary extends Library {
         return recent;
     }
 
-    public LinkedList<Video> getChannelVideosRange(String username, int from, int to) {
+    public LinkedList<Video> getChannelVideosRange(int from, int to) {
         LinkedList<Video> recent = new LinkedList<>();
-        LinkedList<Video>  videos = getChannelVideos(username);
+        LinkedList<Video>  videos = getChannelVideos();
 
         for (int i = 0;i >= from - 1 && i <= to - 1 && i < videos.size() && !videos.isEmpty(); i++) {
             Video video = videos.get(i);
@@ -58,9 +57,9 @@ public class ChannelLibrary extends Library {
         return recent;
     }
 
-    public LinkedList<Video> getChannelVideosRecentRange(String username, int from, int to) {
+    public LinkedList<Video> getChannelVideosRecentRange(int from, int to) {
         LinkedList<Video> recent = new LinkedList<>();
-        LinkedList<Video> videos = new LinkedList<>(getChannelVideos(username));
+        LinkedList<Video> videos = new LinkedList<>(getChannelVideos());
 
         for (int i = 0;i >= from - 1 && i <= to - 1 && i < videos.size() && !videos.isEmpty(); i++) {
             int inverseIndex = videos.size() - 1 - i;
@@ -71,53 +70,53 @@ public class ChannelLibrary extends Library {
         return recent;
     }
 
-    public TreeNode getPlaylistsParentNode(String username) {
-        for (TreeNode child : Database.Users.get(username).channel.library.root.children) {
+    public TreeNode getPlaylistsParentNode() {
+        for (TreeNode child : root.children) {
             if (child.name.equals("Playlists")) return child;
         }
         return null;
     }
 
-    public LinkedList<PlaylistNode> getAllPlaylistNode(String username) {
+    public LinkedList<PlaylistNode> getAllPlaylistNode() {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
 
-        if (getPlaylistsParentNode(username) == null) return playlistsChild;
-        for (TreeNode child : getPlaylistsParentNode(username).children) {
+        if (getPlaylistsParentNode() == null) return playlistsChild;
+        for (TreeNode child : getPlaylistsParentNode().children) {
             playlistsChild.add((PlaylistNode) child);
         }
 
         return playlistsChild;
     }
 
-    public PlaylistNode getPlaylist(String username, int index) {
-        if (!getAllPlaylistNode(username).isEmpty());
-        return getAllPlaylistNode(username).get(index);
+    public PlaylistNode getPlaylist(int index) {
+        if (!getAllPlaylistNode().isEmpty());
+        return getAllPlaylistNode().get(index);
     }
 
     public List<PlaylistNode> getEveryPlaylistNode() {
         List<PlaylistNode> playlists = new LinkedList<>();
-        for (String username : QueryUser.getAllUsername()) {
-            playlists.addAll(getAllPlaylistNode(username));
+        for (ChannelLibrary channel : QueryChannel.getAllChannelLibrary()) {
+            LinkedList<PlaylistNode> playlist = channel.getAllPlaylistNode();
+            playlists.addAll(playlist);
         }
         return playlists;
     }
 
-    public LinkedList<PlaylistNode> getPlaylistNodeRecent(String username, int count) {
+    public LinkedList<PlaylistNode> getPlaylistNodeRecent(int count) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
-        LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
+        LinkedList <PlaylistNode> playlists = getAllPlaylistNode();
 
 
         for (int i=0; i < count && i < playlists.size() && !playlists.isEmpty(); i++) {
-            int inverseIndex = playlists.size() - 1 - i;
             playlistsChild.add(playlists.get(i));
         }
 
         return playlistsChild;
     }
 
-    public LinkedList<PlaylistNode> getPlaylistNodeRecentRange(String username, int from, int to) {
+    public LinkedList<PlaylistNode> getPlaylistNodeRecentRange(int from, int to) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
-        LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
+        LinkedList <PlaylistNode> playlists = getAllPlaylistNode();
 
         for (int i=0; i >= from - 1 && i < to && i < playlists.size() && !playlists.isEmpty(); i++) {
             int inverseIndex = playlists.size() - 1 - i;
@@ -127,9 +126,9 @@ public class ChannelLibrary extends Library {
         return playlistsChild;
     }
 
-    public LinkedList<PlaylistNode> getPlaylistNodeRange(String username, int from, int to) {
+    public LinkedList<PlaylistNode> getPlaylistNodeRange(int from, int to) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
-        LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
+        LinkedList <PlaylistNode> playlists = getAllPlaylistNode();
 
         for (int i=0; i >= from - 1 && i < to && i < playlists.size() && !playlists.isEmpty(); i++) {
             playlistsChild.add(playlists.get(i));
@@ -138,20 +137,20 @@ public class ChannelLibrary extends Library {
         return playlistsChild;
     }
 
-    public PlaylistNode createPlaylist(TreeNode playlistParent, String name, String description) {
+    public PlaylistNode createPlaylist(String name, String description) {
         PlaylistNode playlist = new PlaylistNode(name, description);
-        playlistParent.addChild(playlist);
+        getPlaylistsParentNode().addChild(playlist);
         return playlist;
     }
 
-    public void deletePlaylist(String username, PlaylistNode playlist) {
-            QueryChannel.getChannelLibrary(username).getPlaylistsParentNode(username).children.remove(playlist);
+    public void deletePlaylist(PlaylistNode playlist) {
+            QueryChannel.getChannelLibrary(root.name).getPlaylistsParentNode().children.remove(playlist);
     }
 
     public List<Video> getAllChannelVideos() {
         List<Video> videos = new LinkedList<>();
-        for (String username : QueryUser.getAllUsername()) {
-            videos.addAll(getChannelVideos(username));
+        for (ChannelLibrary channel : QueryChannel.getAllChannelLibrary()) {
+            videos.addAll(channel.getChannelVideos());
         }
         return videos;
     }

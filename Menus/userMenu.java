@@ -159,7 +159,7 @@ public class userMenu {
                 FormattedPrint.center("======================================", "###", outerPad);
             }
 
-            QueryChannel.getChannelLibrary(CurrentUser.getUsername()).getChannelVideos(CurrentUser.getUsername());
+            QueryChannel.getChannelLibrary(CurrentUser.getUsername()).getChannelVideos();
 
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("1. Watch One", "||", outerPad);
