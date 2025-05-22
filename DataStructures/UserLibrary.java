@@ -50,7 +50,7 @@ public class UserLibrary extends Library{
 
     public WatcHashSetNode getWatchHashSetNode(String username) {
         for (TreeNode child : QueryUser.getUserLibrary(username).root.children) {
-            if (child.name.equals("WatchHashSetNode")) return (WatcHashSetNode) child;
+            if (child.name.equals("WatchHashSet")) return (WatcHashSetNode) child;
         }
         return new WatcHashSetNode(username);
     }
@@ -96,7 +96,7 @@ public class UserLibrary extends Library{
     }
 
     public void addPlaylist(String username, PlaylistNode playlist) {
-        getAllPlaylistNode(username).add(playlist);
+        getPlaylistsParentNode(username).addChild(playlist);
     }
 
     public PlaylistNode getPlaylist(String username, int index) {
