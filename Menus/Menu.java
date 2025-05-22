@@ -8,59 +8,9 @@ import DataStructures.*;
 
 public class Menu {
     public static void login() {
+        
+
         int outerPad = 21;
-        Database.Users.put("user", new User("a",LocalDateTime.now(),new Channel("channel", null, LocalDateTime.now()),"user"));
-        Database.Users.put("username", new User("name",LocalDateTime.now(),new Channel("channel", null, LocalDateTime.now()),"password"));
-        Database.Users.put("onething", new User("onething",LocalDateTime.now(),new Channel("onething", null, LocalDateTime.now()),"onething"));
-        Database.Users.put("queen", new User("queen",LocalDateTime.now(),new Channel("queen", null, LocalDateTime.now()),"queen"));
-
-        QueryChannel.getChannelLibrary("username").uploadChannelVideo("username", new Video("Code a Java Program Overnight", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("user").uploadChannelVideo("user", new Video("Code Slow and Steady", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("username").uploadChannelVideo("username", new Video("One Night Thousand Lines", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("user").uploadChannelVideo("user", new Video("Don't Code a Java Program Overnight", null, LocalDateTime.now()));
-
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("One Thing I Don't Know Why", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("It Doesn't Matter", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("How Hard You Code", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("Keep That In Mind", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("I Design This Program", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("To Remind Myself", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("All I Know", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("onething").uploadChannelVideo("onething", new Video("Time is a Valuable Thing", null, LocalDateTime.now()));
-
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("I came across A VL tree", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("I  felt the branches of it looking at me", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("Is this the we use to love?", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("Is this the place that i've been dreaming of?", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("Oh, simple thing, where have you gone?", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("I'm getting old, and i need something to rely on", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("So, tell me when you're gonne let me in?", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("I'm getting tired, and i need somewhere to begin", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("And if you have a minute why don't we go?", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("Talk about it somewhere only we know", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("This could be the end of everything", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("So why don't we go?", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("songbykeane").uploadChannelVideo("songbykeane", new Video("Somewhere only we know", null, LocalDateTime.now()));
-
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("Too late, my time has come", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("Sends shivers down my spine, body's aching all the time", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("Goodbye, everybody, I've got to go", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("Gotta leave you all behind and face the truth", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("Mamaaaa..... Uuuuuuu......", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("I Don't Wanna Die", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("Sometime I Wish I Never Born At All", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo("queen", new Video("(Insert Brian May Solo Here)", null, LocalDateTime.now()));
-
-        QueryChannel.getChannelLibrary("queen").createPlaylist(QueryChannel.getChannelLibrary("username").getPlaylistsParentNode("queen"), "Rhapsody","a song");
-        QueryChannel.getChannelLibrary("songbykeane").createPlaylist(QueryChannel.getChannelLibrary("username").getPlaylistsParentNode("songbykeane"), "Somewhere","a song");
-        QueryChannel.getChannelLibrary("username").createPlaylist(QueryChannel.getChannelLibrary("username").getPlaylistsParentNode("username"), "Java Speedrun","Faster, Better");
-
-        for (Video video : QueryChannel.getChannelLibrary("queen").getChannelVideos("queen")) {
-            QueryChannel.getChannelLibrary("queen").getPlaylist("queen",0).playlist.add(video);
-        }
-        for (Video video : QueryChannel.getChannelLibrary("songbykeane").getChannelVideos("songbykeane")) {
-            QueryChannel.getChannelLibrary("songbykeane").getPlaylist("songbykeane",0).playlist.add(video);
-        }
 
         String inputtedUsername;
 
