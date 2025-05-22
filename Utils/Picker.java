@@ -15,11 +15,15 @@ public class Picker {
         Random random = new Random();
         List<Video> randomVideos = new ArrayList<>();
 
-        while (randomVideos.size() <= total && randomVideos.size() <= listSize) {
+        int a = 10 * listSize;
+        int b = 1;
+
+        while (randomVideos.size() <= total && randomVideos.size() <= listSize && a > b) {
+            b++;
             if (listSize <= 20) {
                 // If the list size is 20 or less, pick a video with uniform probability.
                 int randomIndex = random.nextInt(listSize);
-                randomVideos.add(videos.get(randomIndex));
+                if (!randomVideos.contains(videos.get(randomIndex))) randomVideos.add(videos.get(randomIndex));
             } else {
                 // If the list size is greater than 20, adjust the probability.
                 // Generate a random number between 0 and listSize.
@@ -27,7 +31,7 @@ public class Picker {
 
                 // Accept the video at randomIndex with a probability of 20/listSize.
                 if (random.nextDouble() < (20.0 / listSize)) {
-                    randomVideos.add(videos.get(randomIndex));
+                    if (!randomVideos.contains(videos.get(randomIndex))) randomVideos.add(videos.get(randomIndex));
                 } else {
                     // If the video at randomIndex is rejected, we need to re-pick.
                     // This can be optimized to avoid infinite loops in edge cases,
@@ -35,7 +39,7 @@ public class Picker {
                     for (int i = 0; i < 5; i++) { // Try a few times to avoid returning null unnecessarily.
                         int newRandomIndex = random.nextInt(listSize);
                         if (random.nextDouble() < (20.0 / listSize)) {
-                            randomVideos.add(videos.get(newRandomIndex));
+                            if (!randomVideos.contains(videos.get(newRandomIndex))) randomVideos.add(videos.get(newRandomIndex));
                         }
                     }
                 }
@@ -54,11 +58,15 @@ public class Picker {
         Random random = new Random();
         List<PlaylistNode> randomPlaylists = new ArrayList<>();
 
-        while (randomPlaylists.size() <= total && randomPlaylists.size() <= listSize) {
+        int a = 10 * listSize;
+        int b = 1;
+
+        while (randomPlaylists.size() <= total && randomPlaylists.size() <= listSize && a > b) {
+            b++;
             if (listSize <= 20) {
                 // If the list size is 20 or less, pick a video with uniform probability.
                 int randomIndex = random.nextInt(listSize);
-                randomPlaylists.add(playlist.get(randomIndex));
+                if (!randomPlaylists.contains(playlist.get(randomIndex))) randomPlaylists.add(playlist.get(randomIndex));
             } else {
                 // If the list size is greater than 20, adjust the probability.
                 // Generate a random number between 0 and listSize.
@@ -66,7 +74,7 @@ public class Picker {
 
                 // Accept the video at randomIndex with a probability of 20/listSize.
                 if (random.nextDouble() < (20.0 / listSize)) {
-                    randomPlaylists.add(playlist.get(randomIndex));
+                    if (!randomPlaylists.contains(playlist.get(randomIndex))) randomPlaylists.add(playlist.get(randomIndex));
                 } else {
                     // If the video at randomIndex is rejected, we need to re-pick.
                     // This can be optimized to avoid infinite loops in edge cases,
@@ -74,7 +82,7 @@ public class Picker {
                     for (int i = 0; i < 5; i++) { // Try a few times to avoid returning null unnecessarily.
                         int newRandomIndex = random.nextInt(listSize);
                         if (random.nextDouble() < (20.0 / listSize)) {
-                            randomPlaylists.add(playlist.get(newRandomIndex));
+                            if (!randomPlaylists.contains(playlist.get(newRandomIndex))) randomPlaylists.add(playlist.get(newRandomIndex));
                         }
                     }
                 }

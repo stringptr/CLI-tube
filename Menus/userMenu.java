@@ -52,22 +52,18 @@ public class userMenu {
                 case 2:
                     System.out.print("\033[H\033[2J");
                     queue();
-                    System.out.print("\033[H\033[2J");
                     break;
                 case 3:
                     System.out.print("\033[H\033[2J");
                     watcHashSet();
-                    System.out.print("\033[H\033[2J");
                     break;
                 case 4:
                     System.out.print("\033[H\033[2J");
                     playlist();
-                    System.out.print("\033[H\033[2J");
                     break;
                 case 5:
                     System.out.print("\033[H\033[2J");
                     history();
-                    System.out.print("\033[H\033[2J");
                     break;
                 case 6:
                     System.out.print("\033[H\033[2J");
@@ -145,36 +141,37 @@ public class userMenu {
         int outerPad = 10;
 
         while (true) {
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
 
             if (CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Your queue is empty.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             } else {
                 int i = 1;
                 FormattedPrint.center("", "||", outerPad);
                 for (Video video : CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername())) {
                     FormattedPrint.center(i + ". " + video.title, "||", outerPad);
+                    i++;
                 }
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             }
+
+            QueryChannel.getChannelLibrary(CurrentUser.getUsername()).getChannelVideos(CurrentUser.getUsername());
 
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("1. Watch One", "||", outerPad);
-            FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("2. Watch All", "||", outerPad);
-            FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("3. Remove One", "||", outerPad);
-            FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("4. Remove All", "||", outerPad);
+            FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-            if (CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
+            if ((CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()) == null || CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) && choice > 0) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Your queue is empty.", "", 0);
                 System.out.println("");
@@ -196,6 +193,8 @@ public class userMenu {
                         CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
                     FormattedPrint.center("Video watched.", "", 0);
                     }
+                    System.out.print("\033[H\033[2J");
+                    System.out.println("");
                     FormattedPrint.center("All video watched.", "", 0);
                     break;
                 case 3:
@@ -206,7 +205,9 @@ public class userMenu {
                     while (!CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
                         CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
                     }
+                    System.out.print("\033[H\033[2J");
                     FormattedPrint.center("All video watched.", "", 0);
+                    System.out.println("");
                     break;
                 default:
                     System.out.print("\033[H\033[2J");
@@ -220,32 +221,40 @@ public class userMenu {
         int outerPad = 10;
 
         while (true) {
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
 
             if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Your history is empty.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             } else {
                 int i = 1;
                 FormattedPrint.center("", "||", outerPad);
                 for (Video video : CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername())) {
                     FormattedPrint.center(i + ". " + video.title, "||", outerPad);
+                    i++;
                 }
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             }
 
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("1. Remove One", "||", outerPad);
-            FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("2. Remove All", "||", outerPad);
+            FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
             if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Your queue is empty.", "", 0);
+                System.out.println("");
+                break;
+            }
+
+            if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()) == null || CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty() && choice > 0) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Your queue is empty.", "", 0);
                 System.out.println("");
@@ -257,14 +266,18 @@ public class userMenu {
                     System.out.print("\033[H\033[2J");
                     return;
                 case 1:
+                    System.out.print("\033[H\033[2J");
                     CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).pop();
                     FormattedPrint.center("Video removed.", "", 0);
+                    System.out.println("");
                     break;
                 case 2:
+                    System.out.print("\033[H\033[2J");
                     while (!CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
                         CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).pop();
                     }
                     FormattedPrint.center("All video watched.", "", 0);
+                    System.out.println("");
                     break;
                 default:
                     System.out.print("\033[H\033[2J");
@@ -278,13 +291,13 @@ public class userMenu {
         int outerPad = 10;
 
         while (true) {
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("1. Browse Video", "||", outerPad);
             FormattedPrint.center("2. Browse Playlist", "||", outerPad);
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -313,23 +326,23 @@ public class userMenu {
     private static void browseVideosRecomended(List<Video> videos) {
         int outerPad = 10;
 
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
             if (videos == null || videos.isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("There's no video available.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             } else {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Recomended Videos", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 for (int i = 1; i <= videos.size(); i++) {
                     FormattedPrint.center(i + ". " + videos.get(i - 1).title, "||", outerPad);
                 }
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             }
     }
 
@@ -353,7 +366,7 @@ public class userMenu {
             FormattedPrint.center("5. Refresh Recomendation", "||", outerPad);
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("=====================================", "###", outerPad);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -363,6 +376,7 @@ public class userMenu {
                 System.out.println("");
                 break;
             }
+
             switch (choice) {
                 case 0:
                     System.out.print("\033[H\033[2J");
@@ -386,6 +400,8 @@ public class userMenu {
                             System.out.println("");
                         }
                     }
+                    System.out.print("\033[H\033[2J");
+                    break;
                 case 2:
                     while (true) {
                         System.out.print("\033[H\033[2J");
@@ -394,14 +410,13 @@ public class userMenu {
                         System.out.println("");
                         choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
                         if (choiceVideo == 0) {
+                            System.out.print("\033[H\033[2J");
                             break;
                         } else if (choiceVideo <= videos.size()) {
                             CurrentUser.getUserLibrary().addQueue(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
                             videos.remove(choiceVideo - 1);
                             FormattedPrint.center("Video added to queue.", "", 0);
                             System.out.println("");
-                        } else if (choiceVideo == 0) {
-                            break;
                         } else {
                             FormattedPrint.center("Video not found.", "", 0);
                             System.out.println("");
@@ -417,6 +432,7 @@ public class userMenu {
                         System.out.println("");
                         choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
                         if (choiceVideo == 0) {
+                            System.out.print("\033[H\033[2J");
                             break;
                         } else if (choiceVideo <= videos.size()) {
                             CurrentUser.getUserLibrary().addWatchHashSetVideos(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
@@ -480,23 +496,23 @@ public class userMenu {
     private static void browsePlaylistsRecomended(List<PlaylistNode> playlists) {
         int outerPad = 10;
 
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
             if (playlists == null || playlists.isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("There's no plyalist available.", "||", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             } else {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Recomended Playlists", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
                 FormattedPrint.center("", "||", outerPad);
                 for (int i = 1; i <= playlists.size(); i++) {
                     FormattedPrint.center(i + ". " + playlists.get(i - 1).name, "||", outerPad);
                 }
                 FormattedPrint.center("", "||", outerPad);
-                FormattedPrint.center("====================================", "###", outerPad);
+                FormattedPrint.center("======================================", "###", outerPad);
             }
     }
 
@@ -519,7 +535,7 @@ public class userMenu {
             FormattedPrint.center("5. Refresh Recomendation", "||", outerPad);
             FormattedPrint.center("0. Back", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
@@ -555,6 +571,8 @@ public class userMenu {
                             System.out.println("");
                         }
                     }
+                    System.out.print("\033[H\033[2J");
+                    break;
                 case 2:
                     while (true) {
                         System.out.print("\033[H\033[2J");
@@ -642,14 +660,14 @@ public class userMenu {
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("You don't have any playlists yet.", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
         } else {
             FormattedPrint.center("", "||", outerPad);
             for (int i = 1; i <= playlists.size(); i++) {
                 FormattedPrint.center(i + ". " + playlists.get(i - 1).name, "||", outerPad);
             }
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
         }
 
     }
@@ -659,12 +677,12 @@ public class userMenu {
         int outerPad = 10;
 
         while (true) {
-            FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+            FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center(" Watch and create a fun list !! ", "##", outerPad);
             FormattedPrint.center(CurrentUser.getName() + " ", "##", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
 
             LinkedList<PlaylistNode> recentPlaylists = CurrentUser.getUserLibrary().getPlaylistNodeRecent(CurrentUser.getUsername(), 10);
             playlistUser(recentPlaylists);
@@ -676,13 +694,14 @@ public class userMenu {
             FormattedPrint.center("4. Edit Playlist ", "||", outerPad);
             FormattedPrint.center("0. Back ", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("====================================", "###", outerPad);
+            FormattedPrint.center("======================================", "###", outerPad);
             System.out.println("");
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
 
             switch (choice) {
                 case 0:
+                    System.out.print("\033[H\033[2J");
                     return;
                 case 1:
                     int outerPad1 = 16;
@@ -696,7 +715,9 @@ public class userMenu {
                     System.out.println("");
 
                     String title = GetInput.stringLimitedCenter("Title:", "Input isn't valid.", 36, 8);
+                    if (title.equals("~")) break;
                     String description = GetInput.stringLimitedCenter("Description:", "Input isn't valid.", 36, 8);
+                    if (title.equals("~")) break;
 
                     CurrentUser.getUserLibrary().createPlaylist(CurrentUser.getUserLibrary().getPlaylistsParentNode(CurrentUser.getUsername()), title, description);
                     System.out.print("\033[H\033[2J");
@@ -737,6 +758,8 @@ public class userMenu {
                         System.out.println("");
                         break;
                     }
+                    System.out.print("\033[H\033[2J");
+                    break;
                 case 3:
                     if (recentPlaylists.isEmpty()) {
                         break;
@@ -779,18 +802,19 @@ public class userMenu {
                 counter++;
             }
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("==================================", "###", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
         } else {
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("You didn't save any video yet.", "||", outerPad);
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("==================================", "###", outerPad);
+            FormattedPrint.center("====================================", "###", outerPad);
         }
         FormattedPrint.center("", "||", outerPad);
         FormattedPrint.center("1. Watch", "||", outerPad);
         FormattedPrint.center("2. Watch all", "||", outerPad);
         FormattedPrint.center("3. Remove", "||", outerPad);
         FormattedPrint.center("4. Remove all", "||", outerPad);
+        FormattedPrint.center("0. Back", "||", outerPad);
         FormattedPrint.center("", "||", outerPad);
         FormattedPrint.center("====================================", "###", outerPad);
 
@@ -798,6 +822,14 @@ public class userMenu {
 
         int toDO;
         choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid.", 1);
+
+        if ((videos == null || videos.isEmpty()) && choice > 0) {
+            System.out.print("\033[H\033[2J");
+            FormattedPrint.center("Your watch later is empty.", "", 0);
+            System.out.println("");
+            break;
+        }
+
         switch (choice) {
             case 0:
                 System.out.print("\033[H\033[2J");
