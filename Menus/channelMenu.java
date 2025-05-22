@@ -47,7 +47,7 @@ public class channelMenu {
                     break;
                 case 3:
                     System.out.print("\033[H\033[2J");
-                    //channelSetting();
+                    settings();
                     System.out.print("\033[H\033[2J");
                     break;
                 case 4:
@@ -154,6 +154,7 @@ public class channelMenu {
 
                     int toDelete = GetInput.integerZeroPositiveCenter("Which to delete: ", "Input isn't valid", 2);
                     if (toDelete == 0) {
+                        System.out.print("\033[H\033[2J");
                         break;
                     } else if (toDelete > 0 && toDelete <= allChannelVideos.size()) {
                         CurrentChannel.getChannelLibrary().deleteChannelVideo( allChannelVideos.get(toDelete - 1));
@@ -467,14 +468,9 @@ public class channelMenu {
                     if (choiceVideo == 0) {
                         break;
                     } else if (choiceVideo <= recentVideos.size()) {
-                        if (CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).playlist.contains(recentVideos.get(choiceVideo - 1))) {
-                            FormattedPrint.center("Video already in playlist.", "", 0);
-                            System.out.println("");
-                        } else {
-                            CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).addVideo(recentVideos.get(choiceVideo - 1));
-                            FormattedPrint.center("Video added to playlist.", "", 0);
-                            System.out.println("");
-                        }
+                        CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).addVideo(recentVideos.get(choiceVideo - 1));
+                        FormattedPrint.center("Video added to playlist.", "", 0);
+                        System.out.println("");
                     } else {
                         FormattedPrint.center("Video not found.", "", 0);
                         System.out.println("");
@@ -558,5 +554,52 @@ public class channelMenu {
                 System.out.println("");
             }
         }
+    }
+
+    private static void settings() {
+        int choice;
+        int outerPad = 10;
+
+        FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+        FormattedPrint.center("", "||", outerPad);
+        FormattedPrint.center("1. Change Display Name", "||", outerPad);
+        FormattedPrint.center("9. DELETE ACCOUNT", "||", outerPad);
+        FormattedPrint.center("", "||", outerPad);
+        FormattedPrint.center("====================================", "###", outerPad);
+
+        choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+        switch (choice) {
+            case 0:
+                System.out.print("\033[H\033[2J");
+                return;
+            case 1:
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Change Display Name", "", outerPad);
+                FormattedPrint.center("", "", outerPad);
+                FormattedPrint.center("Current Display Name: " + CurrentChannel.getName(), "", outerPad);
+                FormattedPrint.center("", "", outerPad);
+                String newDisplayName = GetInput.stringLimitedCenter("New Display Name:", "Too many characters.", 16, 10);
+                CurrentChannel.getChannel().display_name = newDisplayName;
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Display Name changed successfully.", "", 0);
+                System.out.println("");
+                break;
+            case 9:
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("DELETE ACCOUNT", "", outerPad);
+                FormattedPrint.center("", "", outerPad);
+                int exit = GetInput.integerBoolCenter("Are you sure (1 to yes, 0 to no):",  "Input isn't valid", 1);
+                if (exit == 0) break;
+                QueryUser.deleteUser(CurrentUser.getUsername());
+                CurrentUser.set(null);
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Account deleted successfully.", "", 0);
+                System.out.println("");
+                return;
+            default:
+                System.out.print("\033[H\033[2J");
+                break;
+        }
+
     }
 }

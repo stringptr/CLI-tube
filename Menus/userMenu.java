@@ -111,6 +111,8 @@ public class userMenu {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Change Display Name", "", outerPad);
                 FormattedPrint.center("", "", outerPad);
+                FormattedPrint.center("Current Display Name: " + CurrentUser.getName(), "", outerPad);
+                FormattedPrint.center("", "", outerPad);
                 String newDisplayName = GetInput.stringLimitedCenter("New Display Name:", "Too many characters.", 16, 10);
                 QueryUser.getUser(CurrentUser.getUsername()).display_name = newDisplayName;
                 System.out.print("\033[H\033[2J");
@@ -143,7 +145,7 @@ public class userMenu {
         while (true) {
             FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
 
-            if (CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
+            if (CurrentUser.getUserLibrary().getQueue().isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Your queue is empty.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
@@ -151,7 +153,7 @@ public class userMenu {
             } else {
                 int i = 1;
                 FormattedPrint.center("", "||", outerPad);
-                for (Video video : CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername())) {
+                for (Video video : CurrentUser.getUserLibrary().getQueue()) {
                     FormattedPrint.center(i + ". " + video.title, "||", outerPad);
                     i++;
                 }
@@ -171,7 +173,7 @@ public class userMenu {
             FormattedPrint.center("======================================", "###", outerPad);
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-            if ((CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()) == null || CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) && choice > 0) {
+            if ((CurrentUser.getUserLibrary().getQueue() == null || CurrentUser.getUserLibrary().getQueue().isEmpty()) && choice > 0) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Your queue is empty.", "", 0);
                 System.out.println("");
@@ -183,14 +185,14 @@ public class userMenu {
                     System.out.print("\033[H\033[2J");
                     return;
                 case 1:
-                    CurrentUser.getUserLibrary().addHistory(CurrentUser.getUsername(), CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).element());
-                    CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
+                    CurrentUser.getUserLibrary().addHistory(CurrentUser.getUserLibrary().getQueue().element());
+                    CurrentUser.getUserLibrary().getQueue().poll();
                     FormattedPrint.center("Video watched.", "", 0);
                     break;
                 case 2:
-                    while (!CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
-                        CurrentUser.getUserLibrary().addHistory(CurrentUser.getUsername(), CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).element());
-                        CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
+                    while (!CurrentUser.getUserLibrary().getQueue().isEmpty()) {
+                        CurrentUser.getUserLibrary().addHistory(CurrentUser.getUserLibrary().getQueue().element());
+                        CurrentUser.getUserLibrary().getQueue().poll();
                     FormattedPrint.center("Video watched.", "", 0);
                     }
                     System.out.print("\033[H\033[2J");
@@ -198,12 +200,12 @@ public class userMenu {
                     FormattedPrint.center("All video watched.", "", 0);
                     break;
                 case 3:
-                    CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
+                    CurrentUser.getUserLibrary().getQueue().poll();
                     FormattedPrint.center("Video removed.", "", 0);
                     break;
                 case 4:
-                    while (!CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).isEmpty()) {
-                        CurrentUser.getUserLibrary().getQueue(CurrentUser.getUsername()).poll();
+                    while (!CurrentUser.getUserLibrary().getQueue().isEmpty()) {
+                        CurrentUser.getUserLibrary().getQueue().poll();
                     }
                     System.out.print("\033[H\033[2J");
                     FormattedPrint.center("All video watched.", "", 0);
@@ -223,7 +225,7 @@ public class userMenu {
         while (true) {
             FormattedPrint.center("============== CLI-tube ==============", "###", outerPad);
 
-            if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
+            if (CurrentUser.getUserLibrary().getHistory().isEmpty()) {
                 FormattedPrint.center("", "||", outerPad);
                 FormattedPrint.center("Your history is empty.", "##", outerPad);
                 FormattedPrint.center("", "||", outerPad);
@@ -231,7 +233,7 @@ public class userMenu {
             } else {
                 int i = 1;
                 FormattedPrint.center("", "||", outerPad);
-                for (Video video : CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername())) {
+                for (Video video : CurrentUser.getUserLibrary().getHistory()) {
                     FormattedPrint.center(i + ". " + video.title, "||", outerPad);
                     i++;
                 }
@@ -247,14 +249,14 @@ public class userMenu {
             FormattedPrint.center("======================================", "###", outerPad);
 
             choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-            if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
+            if (CurrentUser.getUserLibrary().getHistory().isEmpty()) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Your queue is empty.", "", 0);
                 System.out.println("");
                 break;
             }
 
-            if (CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()) == null || CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty() && choice > 0) {
+            if (CurrentUser.getUserLibrary().getHistory() == null || CurrentUser.getUserLibrary().getHistory().isEmpty() && choice > 0) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Your queue is empty.", "", 0);
                 System.out.println("");
@@ -267,14 +269,14 @@ public class userMenu {
                     return;
                 case 1:
                     System.out.print("\033[H\033[2J");
-                    CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).pop();
+                    CurrentUser.getUserLibrary().getHistory().pop();
                     FormattedPrint.center("Video removed.", "", 0);
                     System.out.println("");
                     break;
                 case 2:
                     System.out.print("\033[H\033[2J");
-                    while (!CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).isEmpty()) {
-                        CurrentUser.getUserLibrary().getHistory(CurrentUser.getUsername()).pop();
+                    while (!CurrentUser.getUserLibrary().getHistory().isEmpty()) {
+                        CurrentUser.getUserLibrary().getHistory().pop();
                     }
                     FormattedPrint.center("All video watched.", "", 0);
                     System.out.println("");
@@ -391,7 +393,7 @@ public class userMenu {
                         if (choiceVideo == 0) {
                             break;
                         } else if (choiceVideo <= videos.size()) {
-                            CurrentUser.getUserLibrary().addHistory(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
+                            CurrentUser.getUserLibrary().addHistory(videos.get(choiceVideo - 1));
                             videos.remove(choiceVideo - 1);
                             FormattedPrint.center("Video watched.", "", 0);
                             System.out.println("");
@@ -413,7 +415,7 @@ public class userMenu {
                             System.out.print("\033[H\033[2J");
                             break;
                         } else if (choiceVideo <= videos.size()) {
-                            CurrentUser.getUserLibrary().addQueue(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
+                            CurrentUser.getUserLibrary().addQueue( videos.get(choiceVideo - 1));
                             videos.remove(choiceVideo - 1);
                             FormattedPrint.center("Video added to queue.", "", 0);
                             System.out.println("");
@@ -435,7 +437,7 @@ public class userMenu {
                             System.out.print("\033[H\033[2J");
                             break;
                         } else if (choiceVideo <= videos.size()) {
-                            CurrentUser.getUserLibrary().addWatchHashSetVideos(CurrentUser.getUsername(), videos.get(choiceVideo - 1));
+                            CurrentUser.getUserLibrary().addWatchHashSetVideos( videos.get(choiceVideo - 1));
                             videos.remove(choiceVideo - 1);
                             FormattedPrint.center("Video added to watch later.", "", 0);
                             System.out.println("");
@@ -450,7 +452,7 @@ public class userMenu {
                     int choicePlaylist;
                     while (true) {
                         System.out.print("\033[H\033[2J");
-                        LinkedList<PlaylistNode> playlists = CurrentUser.getUserLibrary().getAllPlaylistNode(CurrentUser.getUsername());
+                        LinkedList<PlaylistNode> playlists = CurrentUser.getUserLibrary().getAllPlaylistNode();
                         browseVideosRecomended(videos);
                         playlistUser(playlists);
                         FormattedPrint.center("Tip: 0 to back.", "", 0);
@@ -459,7 +461,7 @@ public class userMenu {
                         if (choicePlaylist == 0) {
                             break;
                         } else if (choicePlaylist <= playlists.size()) {
-                            FormattedPrint.center("Playlist: " + CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choicePlaylist).name, "", 0);
+                            FormattedPrint.center("Playlist: " + CurrentUser.getUserLibrary().getPlaylist(choicePlaylist).name, "", 0);
                             System.out.println("");
                         } else {
                             FormattedPrint.center("Video not found.", "", 0);
@@ -470,7 +472,7 @@ public class userMenu {
                             if (choiceVideo == 0) {
                                 break;
                             } else if (choiceVideo <= videos.size()) {
-                                CurrentUser.getUserLibrary().getPlaylist(CurrentUser.getUsername(),choicePlaylist).addVideo(videos.get(choiceVideo - 1));
+                                CurrentUser.getUserLibrary().getPlaylist(choicePlaylist).addVideo(videos.get(choiceVideo - 1));
                                 videos.remove(choiceVideo - 1);
                                 FormattedPrint.center("Video added to playlist.", "", 0);
                                 System.out.println("");
@@ -561,7 +563,7 @@ public class userMenu {
                             break;
                         } else if (choicePlaylist <= playlists.size()) {
                             for (Video video : playlists.get(choicePlaylist - 1).playlist) {
-                                CurrentUser.getUserLibrary().addHistory(CurrentUser.getUsername(), video);
+                                CurrentUser.getUserLibrary().addHistory(video);
                             }
                             playlists.remove(choicePlaylist - 1);
                             FormattedPrint.center("Playlist watched.", "", 0);
@@ -584,7 +586,7 @@ public class userMenu {
                             break;
                         } else if (choicePlaylist <= playlists.size()) {
                             for (Video video : playlists.get(choicePlaylist - 1).playlist) {
-                                CurrentUser.getUserLibrary().addQueue(CurrentUser.getUsername(), video);
+                                CurrentUser.getUserLibrary().addQueue( video);
                             }
                             playlists.remove(choicePlaylist - 1);
                             FormattedPrint.center("Playlist added to queue.", "", 0);
@@ -607,7 +609,7 @@ public class userMenu {
                             break;
                         } else if (choicePlaylist <= playlists.size()) {
                             for (Video video : playlists.get(choicePlaylist - 1).playlist) {
-                                CurrentUser.getUserLibrary().addWatchHashSetVideos(CurrentUser.getUsername(), video);
+                                CurrentUser.getUserLibrary().addWatchHashSetVideos( video);
                             }
                             playlists.remove(choicePlaylist - 1);
                             FormattedPrint.center("Playlist added to watch later.", "", 0);
@@ -623,7 +625,7 @@ public class userMenu {
                     int choiceUPlaylists;
                     while (true) {
                         System.out.print("\033[H\033[2J");
-                        LinkedList<PlaylistNode> uplaylists = CurrentUser.getUserLibrary().getAllPlaylistNode(CurrentUser.getUsername());
+                        LinkedList<PlaylistNode> uplaylists = CurrentUser.getUserLibrary().getAllPlaylistNode();
                         browsePlaylistsRecomended(playlists);
                         playlistUser(uplaylists);
                         FormattedPrint.center("Tip: 0 to back.", "", 0);
@@ -632,7 +634,7 @@ public class userMenu {
                         if (choiceUPlaylists == 0) {
                             break;
                         } else if (choiceUPlaylists <= uplaylists.size()) {
-                            CurrentUser.getUserLibrary().addPlaylist(CurrentUser.getUsername(),uplaylists.get(choiceUPlaylists-1));
+                            CurrentUser.getUserLibrary().addPlaylist(uplaylists.get(choiceUPlaylists-1));
                             FormattedPrint.center("Playlist added to your library.", "", 0);
                             System.out.println("");
                         } else {
@@ -684,12 +686,12 @@ public class userMenu {
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("======================================", "###", outerPad);
 
-            LinkedList<PlaylistNode> recentPlaylists = CurrentUser.getUserLibrary().getPlaylistNodeRecent(CurrentUser.getUsername(), 10);
+            LinkedList<PlaylistNode> recentPlaylists = CurrentUser.getUserLibrary().getPlaylistNodeRecent(10);
             playlistUser(recentPlaylists);
 
             FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("1. Create a Playlist ", "||", outerPad);
-            FormattedPrint.center("2. Delete a Playlist ", "||", outerPad);
+            FormattedPrint.center("1. Create a Playlist", "||", outerPad);
+            FormattedPrint.center("2. Delete Playlists", "||", outerPad);
             FormattedPrint.center("3. Delete All Playlist ", "||", outerPad);
             FormattedPrint.center("4. Edit Playlist ", "||", outerPad);
             FormattedPrint.center("0. Back ", "||", outerPad);
@@ -716,10 +718,11 @@ public class userMenu {
 
                     String title = GetInput.stringLimitedCenter("Title:", "Input isn't valid.", 36, 8);
                     if (title.equals("~")) break;
+                    System.out.println("");
                     String description = GetInput.stringLimitedCenter("Description:", "Input isn't valid.", 36, 8);
                     if (title.equals("~")) break;
 
-                    CurrentUser.getUserLibrary().createPlaylist(CurrentUser.getUserLibrary().getPlaylistsParentNode(CurrentUser.getUsername()), title, description);
+                    CurrentUser.getUserLibrary().createPlaylist(title, description);
                     System.out.print("\033[H\033[2J");
                     FormattedPrint.center("Playlist created successfully.", "", 0);
                     break;
@@ -737,7 +740,7 @@ public class userMenu {
                         FormattedPrint.center("====================================", "###", outerPad2);
                         FormattedPrint.center("", "||", outerPad2);
 
-                        LinkedList<PlaylistNode> playlist = CurrentUser.getUserLibrary().getAllPlaylistNode(CurrentUser.getUsername());
+                        LinkedList<PlaylistNode> playlist = CurrentUser.getUserLibrary().getAllPlaylistNode();
                         for (int i = 1; i <= playlist.size(); i++) {
                             FormattedPrint.center(i + ". " + playlist.get(i - 1).name, "||", outerPad2);
                         }
@@ -750,7 +753,7 @@ public class userMenu {
                         if (toDelete == 0) {
                             break;
                         } else {
-                            CurrentUser.getUserLibrary().deletePlaylist(CurrentUser.getUsername(), playlist.get(toDelete - 1));
+                            CurrentUser.getUserLibrary().deletePlaylist(playlist.get(toDelete - 1));
                         }
 
                         System.out.print("\033[H\033[2J");
@@ -765,8 +768,8 @@ public class userMenu {
                         break;
                     }
 
-                    for (PlaylistNode node : CurrentUser.getUserLibrary().getAllPlaylistNode(CurrentUser.getUsername())) {
-                        CurrentUser.getUserLibrary().deletePlaylist(CurrentChannel.getUsername(), node);
+                    for (PlaylistNode node : CurrentUser.getUserLibrary().getAllPlaylistNode()) {
+                        CurrentUser.getUserLibrary().deletePlaylist( node);
                     }
 
                     System.out.print("\033[H\033[2J");
@@ -842,8 +845,8 @@ public class userMenu {
                         int count = 1;
                         for (Video video : videos) {
                             if (count == toDO) {
-                                CurrentUser.getUserLibrary().removeWatchHashSetVideos(CurrentUser.currentUsername, video);
-                                CurrentUser.getUserLibrary().addHistory(CurrentUser.currentUsername, video);
+                                CurrentUser.getUserLibrary().removeWatchHashSetVideos(video);
+                                CurrentUser.getUserLibrary().addHistory(video);
                             }
                             count++;
                         }
@@ -859,8 +862,8 @@ public class userMenu {
                 System.out.println("");
             case 2:
                 for (Video video : videos) {
-                    CurrentUser.getUserLibrary().addHistory(CurrentUser.getUsername(), video);
-                    CurrentUser.getUserLibrary().removeWatchHashSetVideos(CurrentUser.getUsername(), video);
+                    CurrentUser.getUserLibrary().addHistory(video);
+                    CurrentUser.getUserLibrary().removeWatchHashSetVideos(video);
                 }
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("All videos watched.", "", 0);
@@ -874,7 +877,7 @@ public class userMenu {
                         int count = 1;
                         for (Video video : videos) {
                             if (count == toDO) {
-                                CurrentUser.getUserLibrary().removeWatchHashSetVideos(CurrentUser.getUsername(), video);
+                                CurrentUser.getUserLibrary().removeWatchHashSetVideos(video);
                             }
                             count++;
                         }
@@ -891,7 +894,7 @@ public class userMenu {
                 System.out.println("");
             case 4:
                 for (Video video : videos) {
-                    CurrentUser.getUserLibrary().removeWatchHashSetVideos(CurrentUser.getUsername(), video);
+                    CurrentUser.getUserLibrary().removeWatchHashSetVideos(video);
                 }
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("All videos removed.", "", 0);

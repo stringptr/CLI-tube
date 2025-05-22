@@ -8,8 +8,6 @@ import DataStructures.*;
 
 public class Menu {
     public static void login() {
-        
-
         int outerPad = 21;
 
         String inputtedUsername;

@@ -15,101 +15,101 @@ public class UserLibrary extends Library{
         root.addChild(watchashsetNode);
     }
 
-    public QueueNode getQueueNode(String username) {
-        for (TreeNode child : QueryUser.getUserLibrary(username).root.children) {
+    public QueueNode getQueueNode() {
+        for (TreeNode child : root.children) {
             if (child.name.equals("Queue")) return (QueueNode) child;
         }
         return null;
     }
 
-    public Queue<Video> getQueue(String username) {
-        return getQueueNode(username).queue;
+    public Queue<Video> getQueue() {
+        return getQueueNode().queue;
     }
 
-    public void addQueue(String username, Video video) {
-        QueueNode queueNode = getQueueNode(username);
+    public void addQueue(Video video) {
+        QueueNode queueNode = getQueueNode();
         if (queueNode != null) {
-            getQueue(username).add(video);
+            getQueue().add(video);
         }
     }
 
-    public void removeQueue(String username, Video video) {
-        QueueNode queueNode = getQueueNode(username);
+    public void removeQueue(Video video) {
+        QueueNode queueNode = getQueueNode();
         if (queueNode != null) {
-            getQueue(username).remove(video);
+            getQueue().remove(video);
         }
     }
 
-    public HistoryNode getHistoryNode(String username) {
-        for (TreeNode child : QueryUser.getUserLibrary(username).root.children) {
+    public HistoryNode getHistoryNode() {
+        for (TreeNode child : root.children) {
             if (child.name.equals("History")) return (HistoryNode) child;
         }
         return null;
     }
 
-    public WatcHashSetNode getWatchHashSetNode(String username) {
-        for (TreeNode child : QueryUser.getUserLibrary(username).root.children) {
+    public WatcHashSetNode getWatchHashSetNode() {
+        for (TreeNode child : root.children) {
             if (child.name.equals("WatchHashSet")) return (WatcHashSetNode) child;
         }
-        return new WatcHashSetNode(username);
+        return new WatcHashSetNode("");
     }
 
     public LinkedHashSet<Video> getWatchHashSetVideos(String username) {
-        if (getWatchHashSetNode(username).watchashset.isEmpty()) return new LinkedHashSet<>();
-        return getWatchHashSetNode(username).watchashset;
+        if (getWatchHashSetNode().watchashset.isEmpty()) return new LinkedHashSet<>();
+        return getWatchHashSetNode().watchashset;
     }
 
-    public void addWatchHashSetVideos(String username, Video video) {
-        getWatchHashSetNode(username).watchashset.add(video);
+    public void addWatchHashSetVideos(Video video) {
+        getWatchHashSetNode().watchashset.add(video);
     }
 
-    public void removeWatchHashSetVideos(String username, Video video) {
-        getWatchHashSetNode(username).watchashset.remove(video);
+    public void removeWatchHashSetVideos(Video video) {
+        getWatchHashSetNode().watchashset.remove(video);
     }
 
-    public void addHistory(String username, Video video) {
-        getHistoryNode(username).watchVideo(video);
+    public void addHistory(Video video) {
+        getHistoryNode().watchVideo(video);
     }
 
 
-    public Stack<Video> getHistory(String username) {
-        return getHistoryNode(username).history;
+    public Stack<Video> getHistory() {
+        return getHistoryNode().history;
     }
 
-    public TreeNode getPlaylistsParentNode(String username) {
-        for (TreeNode child : QueryUser.getUserLibrary(username).root.children) {
+    public TreeNode getPlaylistsParentNode() {
+        for (TreeNode child : root.children) {
             if (child.name.equals("Playlists")) return child;
         }
         return null;
     }
 
-    public LinkedList<PlaylistNode> getAllPlaylistNode(String username) {
+    public LinkedList<PlaylistNode> getAllPlaylistNode() {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
 
-        if (getPlaylistsParentNode(username) == null) return playlistsChild;
-        for (TreeNode child : getPlaylistsParentNode(username).children) {
+        if (getPlaylistsParentNode() == null) return playlistsChild;
+        for (TreeNode child : getPlaylistsParentNode().children) {
             playlistsChild.add((PlaylistNode) child);
         }
 
         return playlistsChild;
     }
 
-    public void addPlaylist(String username, PlaylistNode playlist) {
-        getPlaylistsParentNode(username).addChild(playlist);
+    public void addPlaylist(PlaylistNode playlist) {
+        getPlaylistsParentNode().addChild(playlist);
     }
 
-    public PlaylistNode getPlaylist(String username, int index) {
-        if (!getAllPlaylistNode(username).isEmpty());
-        return getAllPlaylistNode(username).get(index);
+    public PlaylistNode getPlaylist(int index) {
+        if (!getAllPlaylistNode().isEmpty());
+        return getAllPlaylistNode().get(index);
     }
 
     public void addPlaylistVideo(PlaylistNode playlist, Video video) {
         playlist.addVideo(video);
     }
 
-    public LinkedList<PlaylistNode> getPlaylistNodeRecent(String username, int count) {
+    public LinkedList<PlaylistNode> getPlaylistNodeRecent(int count) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
-        LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
+        LinkedList <PlaylistNode> playlists = getAllPlaylistNode();
 
 
         for (int i=0; i < count && i < playlists.size() && !playlists.isEmpty(); i++) {
@@ -120,9 +120,9 @@ public class UserLibrary extends Library{
         return playlistsChild;
     }
 
-    public LinkedList<PlaylistNode> getPlaylistNodeRecentRange(String username, int from, int to) {
+    public LinkedList<PlaylistNode> getPlaylistNodeRecentRange(int from, int to) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
-        LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
+        LinkedList <PlaylistNode> playlists = getAllPlaylistNode();
 
         for (int i=0; i >= from - 1 && i < to && i < playlists.size() && !playlists.isEmpty(); i++) {
             int inverseIndex = playlists.size() - 1 - i;
@@ -132,9 +132,9 @@ public class UserLibrary extends Library{
         return playlistsChild;
     }
 
-    public LinkedList<PlaylistNode> getPlaylistNodeRange(String username, int from, int to) {
+    public LinkedList<PlaylistNode> getPlaylistNodeRange(int from, int to) {
         LinkedList<PlaylistNode> playlistsChild = new LinkedList<>();
-        LinkedList <PlaylistNode> playlists = getAllPlaylistNode(username);
+        LinkedList <PlaylistNode> playlists = getAllPlaylistNode();
 
         for (int i=0; i >= from - 1 && i < to && i < playlists.size() && !playlists.isEmpty(); i++) {
             playlistsChild.add(playlists.get(i));
@@ -143,13 +143,13 @@ public class UserLibrary extends Library{
         return playlistsChild;
     }
 
-    public PlaylistNode createPlaylist(TreeNode playlistParent, String name, String description) {
+    public PlaylistNode createPlaylist(String name, String description) {
         PlaylistNode playlist = new PlaylistNode(name, description);
-        playlistParent.addChild(playlist);
+        getPlaylistsParentNode().addChild(playlist);
         return playlist;
     }
 
-    public void deletePlaylist(String username, PlaylistNode playlist) {
-        QueryUser.getUserLibrary(username).getPlaylistsParentNode(username).children.remove(playlist);
+    public void deletePlaylist(PlaylistNode playlist) {
+        getPlaylistsParentNode().children.remove(playlist);
     }
 }

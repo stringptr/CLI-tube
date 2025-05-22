@@ -3,6 +3,7 @@ import Menus.*;
 
 public class Main{
     public static void main(String[] Args) {
+        dummy.insert();
         System.out.print("\033[H\033[2J");
 
         int choice;
