@@ -24,4 +24,8 @@ public class QueryUser {
     public static UserLibrary getUserLibrary(String username) {
         return getUser(username).library;
     }
+
+    public static void deleteUser(String username) {
+        Database.Users.remove(username);
+    }
 }

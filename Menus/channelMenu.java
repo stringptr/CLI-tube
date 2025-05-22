@@ -529,10 +529,8 @@ public class channelMenu {
                         break;
                     } else if (choiceVideo <= playlistVideos.size()) {
                         CurrentChannel.getChannelLibrary().getPlaylist(CurrentChannel.getUsername(),choiceUPlaylist-1).removeVideo(playlistVideos.get(choiceVideo - 1));
-                        playlistVideos.remove(choiceVideo - 1);
                         FormattedPrint.center("Video removed from playlist.", "", 0);
                         System.out.println("");
-                        continue;
                     } else {
                         FormattedPrint.center("Video not found.", "", 0);
                         System.out.println("");

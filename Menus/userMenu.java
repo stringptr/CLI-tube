@@ -9,6 +9,9 @@ import DataStructures.*;
 
 public class userMenu {
 	public static void main() {
+        if (CurrentUser.getUsername() == null) return;
+        if (CurrentUser.getUser() == null) return;
+
         int choice;
         int outerPad = 11;
         while (true) {
@@ -80,11 +83,61 @@ public class userMenu {
                         System.out.println("");
                     }
                     break;
+                case 7:
+                    System.out.print("\033[H\033[2J");
+                    settings();
+                    System.out.println("");
                 default:
                     System.out.print("\033[H\033[2J");
                     break;
             }
         }
+    }
+
+    private static void settings() {
+        if (CurrentUser.getUsername() == null) return;
+        int choice;
+        int outerPad = 10;
+
+        FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
+        FormattedPrint.center("", "||", outerPad);
+        FormattedPrint.center("1. Change Display Name", "||", outerPad);
+        FormattedPrint.center("9. DELETE ACCOUNT", "||", outerPad);
+        FormattedPrint.center("", "||", outerPad);
+        FormattedPrint.center("====================================", "###", outerPad);
+
+        choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+        switch (choice) {
+            case 0:
+                System.out.print("\033[H\033[2J");
+                return;
+            case 1:
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Change Display Name", "", outerPad);
+                FormattedPrint.center("", "", outerPad);
+                String newDisplayName = GetInput.stringLimitedCenter("New Display Name:", "Too many characters.", 16, 10);
+                QueryUser.getUser(CurrentUser.getUsername()).display_name = newDisplayName;
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Display Name changed successfully.", "", 0);
+                System.out.println("");
+                break;
+            case 9:
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("DELETE ACCOUNT", "", outerPad);
+                FormattedPrint.center("", "", outerPad);
+                int exit = GetInput.integerBoolCenter("Are you sure (1 to yes, 0 to no):",  "Input isn't valid", 1);
+                if (exit == 0) break;
+                QueryUser.deleteUser(CurrentUser.getUsername());
+                CurrentUser.set(null);
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("Account deleted successfully.", "", 0);
+                System.out.println("");
+                return;
+            default:
+                System.out.print("\033[H\033[2J");
+                break;
+        }
+
     }
 
     private static void queue() {
@@ -228,11 +281,7 @@ public class userMenu {
             FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("1. Browse Video", "##", outerPad);
-            FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("2. Browse Playlist", "##", outerPad);
-            FormattedPrint.center("", "||", outerPad);
-            FormattedPrint.center("3. Browse Channel", "##", outerPad);
-            FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("0. Back", "##", outerPad);
             FormattedPrint.center("", "||", outerPad);
             FormattedPrint.center("====================================", "###", outerPad);
@@ -253,11 +302,6 @@ public class userMenu {
                 case 2:
                     System.out.print("\033[H\033[2J");
                     browsePlaylists();
-                    System.out.print("\033[H\033[2J");
-                    break;
-                case 3:
-                    System.out.print("\033[H\033[2J");
-                    //browseChannel();
                     System.out.print("\033[H\033[2J");
                     break;
                 default:

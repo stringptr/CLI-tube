@@ -83,6 +83,8 @@ public class Menu {
     }
 
     private static void mainMenu() {
+        if (CurrentUser.getUsername() == null) return;
+
         int choice;
         int outerPad = 17;
 
