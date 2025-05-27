@@ -54,7 +54,8 @@ public class dummy {
         QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Body's aching all the time", null, LocalDateTime.now()));
         QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Sends shivers down my spine", null, LocalDateTime.now()));
         QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Goodbye, everybody, I've got to go", null, LocalDateTime.now()));
-        QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Gotta leave you all behind and face the truth", null, LocalDateTime.now()));
+        QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Gotta leave you all behind", null, LocalDateTime.now()));
+        QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("And face the truth", null, LocalDateTime.now()));
         QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Mamaaaa..... Uuuuuuu......", null, LocalDateTime.now()));
         QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("I Don't Wanna Die", null, LocalDateTime.now()));
         QueryChannel.getChannelLibrary("queen").uploadChannelVideo( new Video("Sometime I Wish I Never Born At All", null, LocalDateTime.now()));

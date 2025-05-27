@@ -9,7 +9,10 @@ import DataStructures.*;
 
 public class channelMenu {
     public static void main() {
-        int choice;
+        if (CurrentUser.getUsername() == null) return;
+        if (CurrentUser.getUser().channel == null) return;
+
+        int Choice;
         int outerPad = 11;
 
         while (true) {
@@ -29,9 +32,9 @@ public class channelMenu {
             FormattedPrint.center("====================================", "###", outerPad);
             System.out.println("");
 
-            choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            Choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
 
-            switch (choice) {
+            switch (Choice) {
                 case 0:
                     System.out.print("\033[H\033[2J");
                     return;
@@ -62,7 +65,7 @@ public class channelMenu {
     }
 
     private static void video() {
-        int choice;
+        int Choice;
         int outerPad = 10;
         int outerPad2 = 10;
 
@@ -99,15 +102,15 @@ public class channelMenu {
         FormattedPrint.center("======================================", "###", outerPad);
         System.out.println("");
 
-        choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-        if (recentVideos == null || recentVideos.isEmpty() && choice > 1) {
+        Choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+        if (recentVideos == null || recentVideos.isEmpty() && Choice > 1) {
             System.out.print("\033[H\033[2J");
             FormattedPrint.center("This channel has no video yet.","",0);
             System.out.println("");
             continue;
         }
 
-        switch (choice) {
+        switch (Choice) {
             case 0:
                 System.out.print("\033[H\033[2J");
                 return;
@@ -167,6 +170,7 @@ public class channelMenu {
 
                     System.out.print("\033[H\033[2J");
                 }
+                break;
             case 3:
                 FormattedPrint.center("============== CLI-tube ==============", "###", outerPad2);
                 FormattedPrint.center("", "||", outerPad);
@@ -190,7 +194,8 @@ public class channelMenu {
                 FormattedPrint.center("======================================", "###", outerPad2);
                 System.out.println("");
 
-                int choiceAll = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+                int ChoiceAll = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+                System.out.print("\033[H\033[2J");
                 break;
             default:
                 System.out.print("\033[H\033[2J");
@@ -200,7 +205,7 @@ public class channelMenu {
     }
 
 	private static void playlist() {
-        int choice;
+        int Choice;
         int outerPad = 10;
 
         while (true) {
@@ -257,15 +262,15 @@ public class channelMenu {
             FormattedPrint.center("======================================", "###", outerPad);
             System.out.println("");
 
-            choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-            if ( ( recentPlaylists == null || videos == null || recentPlaylists.isEmpty() || videos.isEmpty() ) && (choice) > 1) {
+            Choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            if ( ( recentPlaylists == null || videos == null || recentPlaylists.isEmpty() || videos.isEmpty() ) && (Choice) > 1) {
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("This channel has no playlists yet.", "", 0);
                 System.out.println("");
                 continue;
             }
 
-            switch (choice) {
+            switch (Choice) {
                 case 0:
                     System.out.print("\033[H\033[2J");
                     return;
@@ -337,31 +342,36 @@ public class channelMenu {
                     System.out.println("");
                     break;
                 case 4:
-                    int choiceEdit;
-
-                    FormattedPrint.center("====================================", "###", outerPad);
-                    FormattedPrint.center("", "||", outerPad);
-                    FormattedPrint.center("1. Add video to playlist", "||", outerPad);
-                    FormattedPrint.center("2. Remove video form playlist", "||", outerPad);
-                    FormattedPrint.center("3. Change playlist name", "||", outerPad);
-                    FormattedPrint.center("0. Back", "||", outerPad);
-                    FormattedPrint.center("", "||", outerPad);
-                    FormattedPrint.center("====================================", "###", outerPad);
-                    System.out.println("");
-                    choiceEdit =  GetInput.integerZeroPositiveCenter("Choice : ", "Input isn't valid", 1);
-                    switch (choiceEdit) {
-                        case 0:
-                            break;
-                        case 1:
-                            playlistAddVideo();
-                            break;
-                        case 2:
-                            playlistRemoveVideo();
-                            break;
-                        case 3:
-                            playlistChangeName();
-                            break;
-                        default:
+                    int ChoiceEdit;
+                    while (true) {
+                        FormattedPrint.center("====================================", "###", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("1. Add video to playlist", "||", outerPad);
+                        FormattedPrint.center("2. Remove video form playlist", "||", outerPad);
+                        FormattedPrint.center("3. Change playlist name", "||", outerPad);
+                        FormattedPrint.center("0. Back", "||", outerPad);
+                        FormattedPrint.center("", "||", outerPad);
+                        FormattedPrint.center("====================================", "###", outerPad);
+                        System.out.println("");
+                        ChoiceEdit =  GetInput.integerZeroPositiveCenter("Choice : ", "Input isn't valid", 1);
+                        switch (ChoiceEdit) {
+                            case 0:
+                                System.out.print("\033[H\033[2J");
+                                return;
+                            case 1:
+                                System.out.print("\033[H\033[2J");
+                                playlistAddVideo();
+                                break;
+                            case 2:
+                                System.out.print("\033[H\033[2J");
+                                playlistRemoveVideo();
+                                break;
+                            case 3:
+                                System.out.print("\033[H\033[2J");
+                                playlistChangeName();
+                                break;
+                            default:
+                        }
                     }
                 default:
                     System.out.print("\033[H\033[2J");
@@ -372,7 +382,7 @@ public class channelMenu {
 
     public static void playlistChangeName() {
         int outerPad = 10;
-        int choice;
+        int Choice;
 
         while (true) {
             LinkedList<PlaylistNode> playlists = CurrentChannel.getChannelLibrary().getAllPlaylistNode();
@@ -394,15 +404,18 @@ public class channelMenu {
             FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
-            choice = GetInput.integerZeroPositiveCenter("Which playlist: ", "Input isn't valid", 1);
+            Choice = GetInput.integerZeroPositiveCenter("Which playlist to rename: ", "Input isn't valid", 1);
 
-            if (choice == 0) {
+            if (Choice == 0) {
                 System.out.print("\033[H\033[2J");
                 return;
-            } else if (choice <= playlists.size()) {
-                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(choice-1).name, "", 0);
+            } else if (Choice <= playlists.size()) {
+                FormattedPrint.center("Tip: ~ to back", null, 0);
+                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(Choice-1).name, "", 0);
+                System.out.println("");
                 String newName = GetInput.stringLimitedCenter("New playlist name: ", "The name is too long.", 36, 12);
-                playlists.get(choice-1).name = newName;
+                if (newName.equals("~")) continue;
+                playlists.get(Choice-1).name = newName;
                 System.out.print("\033[H\033[2J");
                 FormattedPrint.center("Playlist name changed successfully.","",0);
                 System.out.println("");
@@ -417,7 +430,7 @@ public class channelMenu {
 
     public static void playlistAddVideo() {
         int outerPad = 10;
-        int choiceUPlaylist;
+        int ChoiceUPlaylist;
         int from=1, to=15;
 
         while (true) {
@@ -455,20 +468,21 @@ public class channelMenu {
             FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
-            choiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add: ", "Input isn't valid", 1);
+            ChoiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to add to: ", "Input isn't valid", 1);
 
-            if (choiceUPlaylist == 0) {
+            if (ChoiceUPlaylist == 0) {
                 System.out.print("\033[H\033[2J");
                 break;
-            } else if (choiceUPlaylist <= uplaylists.size()) {
-                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).name, "", 0);
+            } else if (ChoiceUPlaylist <= uplaylists.size()) {
+                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(ChoiceUPlaylist-1).name, "", 0);
                 System.out.println("");
                 while (true) {
-                    int choiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
-                    if (choiceVideo == 0) {
+                    int ChoiceVideo = GetInput.integerZeroPositiveCenter("Which video to add: ", "Input isn't valid", 1);
+                    if (ChoiceVideo == 0) {
+                        System.out.print("\033[H\033[2J");
                         break;
-                    } else if (choiceVideo <= recentVideos.size()) {
-                        CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).addVideo(recentVideos.get(choiceVideo - 1));
+                    } else if (ChoiceVideo <= recentVideos.size()) {
+                        CurrentChannel.getChannelLibrary().getPlaylist(ChoiceUPlaylist-1).addVideo(recentVideos.get(ChoiceVideo - 1));
                         FormattedPrint.center("Video added to playlist.", "", 0);
                         System.out.println("");
                     } else {
@@ -476,6 +490,7 @@ public class channelMenu {
                         System.out.println("");
                     }
                 }
+                break;
             } else {
                 FormattedPrint.center("Playlist not found.", "", 0);
                 System.out.println("");
@@ -485,7 +500,7 @@ public class channelMenu {
 
     public static void playlistRemoveVideo() {
         int outerPad = 10;
-        int choiceUPlaylist;
+        int ChoiceUPlaylist;
 
         while (true) {
             LinkedList<PlaylistNode> uplaylists = CurrentChannel.getChannelLibrary().getAllPlaylistNode();
@@ -507,17 +522,17 @@ public class channelMenu {
             FormattedPrint.center("Tip: 0 to back.", "", 0);
             System.out.println("");
 
-            choiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to remove from: ", "Input isn't valid", 1);
+            ChoiceUPlaylist = GetInput.integerZeroPositiveCenter("Which playlist to remove from: ", "Input isn't valid", 1);
 
-            if (choiceUPlaylist == 0) {
+            if (ChoiceUPlaylist == 0) {
                 System.out.print("\033[H\033[2J");
                 break;
-            } else if (choiceUPlaylist <= uplaylists.size()) {
-                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).name, "", 0);
+            } else if (ChoiceUPlaylist <= uplaylists.size()) {
+                FormattedPrint.center("Playlist: " + CurrentChannel.getChannelLibrary().getPlaylist(ChoiceUPlaylist-1).name, "", 0);
                 System.out.println("");
                 while (true) {
 
-                    LinkedList<Video> playlistVideos = CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).playlist;
+                    LinkedList<Video> playlistVideos = CurrentChannel.getChannelLibrary().getPlaylist(ChoiceUPlaylist-1).playlist;
                     FormattedPrint.center("====================================", "###", outerPad);
                     FormattedPrint.center("", "||", outerPad);
                     FormattedPrint.center("Playlist videos: ", "||", outerPad);
@@ -531,17 +546,21 @@ public class channelMenu {
                         int i = 1;
                         for (Video video : playlistVideos) {
                             FormattedPrint.center(i + ". " + video.title, "||", outerPad);
+                            i++;
                         }
                     }
 
                     FormattedPrint.center("", "||", outerPad);
                     FormattedPrint.center("====================================", "###", outerPad);
+                    FormattedPrint.center("Tip: 0 to back,", null, outerPad);
+                    System.out.println("");
 
-                    int choiceVideo = GetInput.integerZeroPositiveCenter("Which video to remove: ", "Input isn't valid", 1);
-                    if (choiceVideo == 0) {
+                    int ChoiceVideo = GetInput.integerZeroPositiveCenter("Which video to remove: ", "Input isn't valid", 1);
+                    if (ChoiceVideo == 0) {
+                        System.out.print("\033[H\033[2J");
                         break;
-                    } else if (choiceVideo <= playlistVideos.size()) {
-                        CurrentChannel.getChannelLibrary().getPlaylist(choiceUPlaylist-1).removeVideo(playlistVideos.get(choiceVideo - 1));
+                    } else if (ChoiceVideo <= playlistVideos.size()) {
+                        CurrentChannel.getChannelLibrary().getPlaylist(ChoiceUPlaylist-1).removeVideo(playlistVideos.get(ChoiceVideo - 1));
                         FormattedPrint.center("Video removed from playlist.", "", 0);
                         System.out.println("");
                     } else {
@@ -557,43 +576,73 @@ public class channelMenu {
     }
 
     private static void settings() {
-        int choice;
+        int Choice;
         int outerPad = 10;
 
         FormattedPrint.center("============= CLI-tube =============", "###", outerPad);
         FormattedPrint.center("", "||", outerPad);
-        FormattedPrint.center("1. Change Display Name", "||", outerPad);
+        FormattedPrint.center("1. Change Channel Name", "||", outerPad);
+        FormattedPrint.center("8. DELETE CHANNEL", "||", outerPad);
         FormattedPrint.center("9. DELETE ACCOUNT", "||", outerPad);
         FormattedPrint.center("", "||", outerPad);
         FormattedPrint.center("====================================", "###", outerPad);
 
-        choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
-        switch (choice) {
+        Choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+        switch (Choice) {
             case 0:
                 System.out.print("\033[H\033[2J");
                 return;
             case 1:
                 System.out.print("\033[H\033[2J");
-                FormattedPrint.center("Change Display Name", "", outerPad);
+                FormattedPrint.center("================================", "###", 13);
+                FormattedPrint.center("", "||", 13);
+                FormattedPrint.center("Change Channel Name", "||", 13);
+                FormattedPrint.center("", "||", 13);
+                FormattedPrint.center("================================", "###", 13);
+                FormattedPrint.center("", "||", 13);
+                FormattedPrint.center("Current Channel Name: " + CurrentChannel.getName(), "||", 13);
+                FormattedPrint.center("", "||", 13);
+                FormattedPrint.center("================================", "###", 13);
                 FormattedPrint.center("", "", outerPad);
-                FormattedPrint.center("Current Display Name: " + CurrentChannel.getName(), "", outerPad);
-                FormattedPrint.center("", "", outerPad);
-                String newDisplayName = GetInput.stringLimitedCenter("New Display Name:", "Too many characters.", 16, 10);
+                String newDisplayName = GetInput.stringLimitedCenter("New Channel Name:", "Too many characters.", 16, 10);
                 CurrentChannel.getChannel().display_name = newDisplayName;
                 System.out.print("\033[H\033[2J");
-                FormattedPrint.center("Display Name changed successfully.", "", 0);
+                FormattedPrint.center("Channel Name changed successfully.", "", 0);
                 System.out.println("");
                 break;
+            case 8:
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("######################################", "", outerPad);
+                FormattedPrint.center("", "#", 13);
+                FormattedPrint.center("DELETE CHANNEL", "#", 13);
+                FormattedPrint.center("", "#", 13);
+                FormattedPrint.center("######################################", "", outerPad);
+
+                FormattedPrint.center("", "", outerPad);
+                String deleteC = GetInput.stringLimitedCenter("ARE YOU SURE? (TYPE \"DELETE MY CHANNEL\" IF YOU SURE)","Input isn't valid.", 17, 17);
+                if (!deleteC.contentEquals("DELETE MY CHANNEL")) break;
+
+                QueryChannel.deleteChannel(CurrentUser.getUsername());
+                System.out.print("\033[H\033[2J");
+                FormattedPrint.center("CHANNEL DELETED SUCCESSFULLY.", "", 0);
+                System.out.println("");
+                return;
             case 9:
                 System.out.print("\033[H\033[2J");
-                FormattedPrint.center("DELETE ACCOUNT", "", outerPad);
+                FormattedPrint.center("######################################", "", outerPad);
+                FormattedPrint.center("", "#", 13);
+                FormattedPrint.center("DELETE ACCOUNT", "#", 13);
+                FormattedPrint.center("", "#", 13);
+                FormattedPrint.center("######################################", "", outerPad);
+
                 FormattedPrint.center("", "", outerPad);
-                int exit = GetInput.integerBoolCenter("Are you sure (1 to yes, 0 to no):",  "Input isn't valid", 1);
-                if (exit == 0) break;
-                QueryUser.deleteUser(CurrentUser.getUsername());
+                String deleteU = GetInput.stringLimitedCenter("ARE YOU SURE? (TYPE \"DELETE MY ACCOUNT\"\" IF YOU SURE)","Input isn't valid.", 17, 17);
+                if (!deleteU.contentEquals("DELETE MY ACCOUNT")) break;
+
+                CurrentUser.delete();
                 CurrentUser.set(null);
                 System.out.print("\033[H\033[2J");
-                FormattedPrint.center("Account deleted successfully.", "", 0);
+                FormattedPrint.center("ACCOUNT DELETED SUCCESSFULLY.", "", 0);
                 System.out.println("");
                 return;
             default:

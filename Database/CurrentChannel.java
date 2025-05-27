@@ -14,6 +14,10 @@ public class CurrentChannel extends CurrentUser {
         return QueryChannel.getDesc(currentUsername);
     }
 
+    public static void delete() {
+        CurrentUser.getUser().channel = null;
+    }
+
     public static ChannelLibrary getChannelLibrary() {
         return QueryChannel.getChannelLibrary(currentUsername);
     }

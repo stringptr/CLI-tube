@@ -111,7 +111,7 @@ public class Menu {
     private static void mainMenu() {
         if (CurrentUser.getUsername() == null) return;
 
-        int choice;
+        int Choice;
         int outerPad = 17;
 
         while (true) {
@@ -133,9 +133,9 @@ public class Menu {
             FormattedPrint.center("========================", "###", outerPad);
             System.out.println("");
 
-            choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
+            Choice = GetInput.integerZeroPositiveCenter("Choice: ", "Input isn't valid", 1);
 
-            switch (choice) {
+            switch (Choice) {
                 case 0:
                     System.out.print("\033[H\033[2J");
                     return;

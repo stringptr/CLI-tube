@@ -53,4 +53,8 @@ public class QueryChannel extends QueryUser {
         }
         return playlists;
     }
+
+    public static void deleteChannel(String username) {
+        QueryUser.getUser(username).channel = null;
+    }
 }

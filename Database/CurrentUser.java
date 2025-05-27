@@ -12,6 +12,11 @@ public class CurrentUser {
         currentUsername = username;
     }
 
+    public static void delete() {
+        QueryUser.deleteUser(currentUsername);
+        currentUsername = null;
+    }
+
     public static User getUser() {
         return QueryUser.getUser(currentUsername);
     }
